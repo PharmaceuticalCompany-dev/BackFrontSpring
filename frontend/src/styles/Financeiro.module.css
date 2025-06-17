@@ -1,0 +1,302 @@
+/* Financeiro.module.css */
+
+.mainContentWrapper {
+    background-color: #f2f2f2; /* Um cinza claro */
+    padding: 20px; /* Adiciona um preenchimento interno para afastar o conteúdo das bordas */
+    min-height: 100vh; /* Garante que o container ocupe a altura total da viewport */
+    width: 100%; /* Ocupa a largura total disponível */
+    box-sizing: border-box; /* Inclui padding e borda no tamanho total */
+    display: flex; /* Para flexibilizar o posicionamento do VendaMesContainer se necessário */
+    flex-direction: column;
+    align-items:center; /* Alinha o conteúdo ao topo */
+}
+
+/* NOVO: Estilos para o cabeçalho da página */
+.pageHeader {
+    background-color: white;
+    width: 100%;
+    padding: 20px 30px; /* Padding interno */
+    box-shadow: var(--SHADOW_LIGHT);
+    display: flex;
+    justify-content: space-between; /* Alinha título à esquerda e ações à direita */
+    align-items: center;
+    margin-bottom: 15px; /* Espaço entre o cabeçalho e o resto do conteúdo */
+    flex-shrink: 0;
+    margin-top: -19.8px;
+    height: 80px;
+}
+
+.pageTitle {
+    font-size: 1.8em;
+    color: var(--DARK_BLUE);
+    margin: 0; /* Remove margem padrão do h2 */
+}
+
+
+
+.financeiroContainer { /* Este será o container principal agora */
+    flex-grow: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* Remover width e margin-left se o componente pai já gerenciar o layout flex */
+    /* Exemplo: Se o componente pai usar display: flex e o Financeiro for um dos filhos */
+    /* Se precisar de um padding ao lado da sidebar, o ideal é que o componente pai lide com isso */
+}
+
+.financialMetricsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 300px;
+    max-width: 100%;
+}
+
+.financialCard {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--SHADOW_LIGHT);
+    text-align: left;
+    width: 300px;
+    max-width: 100%;
+    height: 145px;
+    transition: all 0.2s ;
+    
+}
+
+.financialCard:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.cardValue {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* NOVO ESTILO: Container para a segunda coluna (Transações + Vendas Programadas) */
+.rightColumnContent {
+    flex-grow: 1; /* Ocupa o restante do espaço horizontal */
+    display: flex;
+    flex-direction: column; /* Organiza Transações e Vendas Programadas em coluna */
+    gap: 30px; /* Espaço entre o container de transações e o de vendas programadas */
+}
+
+.transactionsContainer {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.transactionsTitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.3em;
+}
+
+.transactionsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.transactionsTable th,
+.transactionsTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.transactionsTable th {
+    background-color: #f8f8f8;
+    color: #555;
+    font-weight: bold;
+}
+
+.transactionsTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.newTransactionButton {
+    align-self: flex-end;
+    margin-top: auto;
+    background-color: var(--PRIMARY_TEAL);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.newTransactionButton:hover {
+    background-color: var(--DARK_BLUE);
+}
+
+/* NOVOS ESTILOS: Botão Nova Venda Programada */
+/* Reutiliza a maioria dos estilos do botão de transação */
+.newScheduledSaleButton {
+    align-self: flex-end; /* Alinha à direita */
+    margin-top: 20px; /* Adiciona um espaço acima do botão, se necessário */
+    background-color: var(--PRIMARY_TEAL); /* Cor verde, igual ao outro botão */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.newScheduledSaleButton:hover {
+    background-color: var(--DARK_BLUE);
+}
+
+
+.scheduledSalesContainer {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Ocupa o restante da altura disponível na coluna direita */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que a altura disponível */
+}
+
+.scheduledSalesTitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.3em;
+}
+
+.scheduledSalesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scheduledSalesTable th,
+.scheduledSalesTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.scheduledSalesTable th {
+    background-color: #f8f8f8;
+    color: #555;
+    font-weight: bold;
+}
+
+.scheduledSalesTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Opcional: Se precisar de um estilo para o .VendaMesContainer existente no Financeiro.jsx */
+.VendaMesContainer {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.modalOverlay{
+     position: fixed; /* Fixa na tela */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente escuro */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    z-index: 1000; /* Garante que o modal esteja acima de todo o resto */
+}
+
+.modalContent {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 450px; /* Largura do modal */
+    max-width: 90%; /* Garante que seja responsivo */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaçamento entre os elementos do formulário */
+}
+
+.modalTitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: var(--DARK_BLUE);
+    text-align: center;
+}
+
+.modalInput {
+    width: calc(100% - 20px); /* Largura total menos padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Inclui padding e borda na largura total */
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: flex-end; /* Espaça os botões */
+    margin-top: 20px;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+.saveButton, .cancelButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+    flex-grow: 1; /* Faz os botões ocuparem o espaço disponível */
+}
+
+.saveButton {
+    background-color: #2ecc71; /* Verde */
+    color: white;
+}
+
+.saveButton:hover {
+    background-color: #27ae60;
+}
+
+.cancelButton {
+    background-color: #e74c3c; /* Vermelho */
+    color: white;
+}
+
+.cancelButton:hover {
+    background-color: #c0392b;
+}
+
+
+.transactionsContainer{
+    width: 100%;
+}

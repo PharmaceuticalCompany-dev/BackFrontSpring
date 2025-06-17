@@ -1,0 +1,135 @@
+/* src/styles/Funcionario.module.css */
+
+.funcionarioContainer {
+    padding: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+}
+
+/* Cabeçalho: Título e Total */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--DARK_BLUE);
+    margin: 0;
+}
+
+.headerActions p {
+    background-color: transparent;
+    border: 1px solid var(--BORDER_LIGHT);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--TEXT-MUTED);
+}
+
+/* Botões de Ação: Adicionar */
+.actionsContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.actionButton {
+    background-color: #f0f0f0;
+    color: var(--TEXT-DARK);
+    padding: 12px 35px;
+    border: 1px solid var(--BORDER_LIGHT);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+    background-color: #e0e0e0;
+}
+
+/* Tabela de Funcionários */
+.tableContainer {
+    width: 100%;
+}
+
+.employeeTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+}
+
+.employeeTable th {
+    text-align: left;
+    padding: 0 1rem 1rem 1rem;
+    color: var(--TEXT-MUTED);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: none;
+    border: none;
+}
+
+.employeeTable tbody tr {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: var(--SHADOW_LIGHT);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.employeeTable tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.employeeTable td {
+    padding: 1.5rem 1rem;
+    vertical-align: middle;
+    color: var(--TEXT-DARK);
+    font-weight: 500;
+    border: none;
+}
+
+.employeeTable td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.employeeTable td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rowActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.editRowButton, .removeRowButton {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 0.9rem;
+    transition: filter 0.2s ease;
+}
+
+.editRowButton:hover, .removeRowButton:hover {
+    filter: brightness(0.9);
+}
+
+.editRowButton {
+    background-color: var(--GREEN_ADD);
+}
+
+.removeRowButton {
+    background-color: var(--RED_DELETE);
+}

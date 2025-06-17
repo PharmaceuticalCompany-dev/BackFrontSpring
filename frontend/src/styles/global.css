@@ -1,0 +1,82 @@
+/* src/styles/index.css */
+
+/* Remove margens e paddings padrão dos navegadores para termos controle total */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* src/styles/global.css */
+
+/* 1. Defina a família da fonte com o caminho corrigido */
+@font-face {
+  font-family: 'Montserrat';
+  /* O caminho foi corrigido de './fonts/' para '../fonts/' */
+  src: url('/assets/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  /* O caminho foi corrigido de './fonts/' para '../fonts/' */
+  src: url('/assets/fonts/Montserrat-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* 2. Aplique a fonte ao body (com uma pequena limpeza) */
+body {
+  /* A fonte "Arial" estava duplicada, removi uma ocorrência */
+  font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Adicione uma cor de fundo e de texto padrão usando suas variáveis */
+  /* background-color: #fdfdfdc0; */
+  background-color: #f8f8f8;
+  color: var(--TEXT-DARK);
+}
+
+/* Novo conjunto de variáveis de cor */
+/* Em global.css */
+
+:root {
+    /* === Paleta de Cores Principal (Sincronizada com Colors.js) === */
+
+    /* Cores Primárias e de Marca */
+    --PRIMARY_TEAL: #2d5a6a;
+    --DARK_BLUE: #21434e;
+    --LOGO-ACCENT: #b2d8d8;
+    --BLUE: #007bff;
+
+    /* Cores de Fundo e UI */
+    --BG: #f3f3f2
+
+;
+    --CARD-WHITE: #ffffff;
+    --WHITE: #ffffff;
+    --BORDER_LIGHT: #ddd;
+
+    /* Cores de Texto */
+    --TEXT-DARK: #212529;
+    --TEXT-MUTED: #6c757d;
+    --BLACK: #121212;
+
+    /* Cores de Feedback e Ação */
+    --RED_DELETE: #e74c3c;
+    --GREEN_ADD: #2ecc71;
+    --YELLOW: #daa922;
+    --ORANGE: #ff6600;
+
+
+    /* === Outras Variáveis de Estilo (Não são cores puras) === */
+    --SHADOW_LIGHT: 0 2px 5px rgba(0, 0, 0, 0.08);
+    --TABLE_HEADER_BG: #f2f2f2;
+    --TABLE_ROW_EVEN_BG: #f9f9f9;
+}
+
+  

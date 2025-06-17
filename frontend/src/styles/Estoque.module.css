@@ -1,0 +1,139 @@
+/* src/styles/Estoque.module.css */
+
+.estoqueContainer {
+    /* background-color: var(--WHITE); */
+    padding: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+}
+
+/* Cabeçalho: Título e Total */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--DARK_BLUE);
+    margin: 0;
+}
+
+.headerActions p {
+    background-color: transparent;
+    border: 1px solid var(--BORDER_LIGHT);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--TEXT-MUTED);
+}
+
+/* Botões de Ação: Adicionar, Remover, Editar */
+.actionsContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.actionButton {
+    background-color: #f0f0f0; /* Um cinza claro para os botões */
+    color: var(--TEXT-DARK);
+    padding: 12px 35px;
+    border: 1px solid var(--BORDER_LIGHT);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+    background-color: #e0e0e0; /* Um pouco mais escuro no hover */
+}
+
+/* Tabela com estilo de "cards" */
+.tableContainer {
+    /* background-color: var(--WHITE); */
+}
+
+.productTable {
+    width: 100%;
+    border-collapse: separate; /* Essencial para o espaçamento funcionar com border-radius */
+    border-spacing: 0 1rem;  /* Cria o espaço vertical entre as linhas */
+}
+
+.productTable th {
+    text-align: left;
+    padding: 0 1rem 1rem 1rem; /* Espaçamento abaixo do cabeçalho */
+    color: var(--TEXT-MUTED);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: none; /* Mantém o case original como no Figma */
+    border: none;
+}
+
+.productTable tbody tr {
+    background-color: #f9f9f9; /* Fundo cinza bem claro para cada "card" de linha */
+    border-radius: 10px;
+    box-shadow: var(--SHADOW_LIGHT); /* Sombra sutil para dar profundidade */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.productTable tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.productTable td {
+    padding: 1.5rem 1rem;
+    vertical-align: middle;
+    color: var(--TEXT-DARK);
+    font-weight: 500;
+    border: none; /* Removemos a borda padrão do td */
+}
+
+/* Arredonda a primeira e última célula de cada linha */
+.productTable td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.productTable td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* --- ADIÇÃO DOS ESTILOS PARA OS BOTÕES NA TABELA --- */
+
+.rowActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.editRowButton, .removeRowButton {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 0.9rem;
+    transition: filter 0.2s ease;
+}
+
+.editRowButton:hover, .removeRowButton:hover {
+    filter: brightness(0.9);
+}
+
+.editRowButton {
+    background-color: var(--GREEN_ADD); /* Padrão verde */
+}
+
+.removeRowButton {
+    background-color: var(--RED_DELETE); /* Padrão vermelho */
+}

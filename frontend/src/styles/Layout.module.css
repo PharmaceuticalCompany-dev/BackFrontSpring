@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  height: 100vh; /* O container principal assume a altura total */
+  background-color: var(--BG); /* Usando uma variável que existe no seu global.css */
+}
+
+.content {
+  flex-grow: 1; /* Ocupa o resto do espaço */
+  padding: 2rem;
+  overflow-y: auto; /* Adiciona scroll SÓ AQUI se o conteúdo interno for maior */
+  /* height: 100vh;  <-- REMOVIDO */
+}

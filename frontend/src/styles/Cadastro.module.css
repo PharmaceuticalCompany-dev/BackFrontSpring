@@ -1,0 +1,187 @@
+/* src/styles/Cadastro.module.css */
+
+/* --- ESTRUTURA PRINCIPAL (ESPELHADA DO LOGIN) --- */
+.cadastroPageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logoBox {
+  display: none; 
+}
+
+.cadastroContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--DARK_BLUE);
+  padding: 2rem 1rem; /* Adicionado padding vertical */
+}
+
+.cadastroBox {
+  background-color: var(--CARD-WHITE);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px; /* Um pouco maior para caber mais campos e a lista */
+  text-align: center;
+}
+
+/* --- ELEMENTOS DO FORMULÁRIO --- */
+.cadastroTitle {
+  margin-top: 1.5rem; /* Espaço entre a lista e o título */
+  margin-bottom: 2rem;
+  color: var(--PRIMARY_TEAL);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--PRIMARY_TEAL);
+  color: var(--CARD-WHITE);
+  cursor: pointer;
+  margin-top: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all .5s ease;
+}
+
+.btn:hover {
+  background-color: var(--DARK_BLUE);
+  transform: translateY(-3px);
+}
+
+/* --- ESTILOS PARA O SELECT (PARA PARECER COM O FORMFIELD) --- */
+.formGroup {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--BORDER_LIGHT);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--WHITE);
+  color: var(--TEXT-DARK);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+.selectInput:focus {
+  outline: none;
+  border-color: var(--PRIMARY-TEAL);
+}
+
+/* --- LINKS (IGUAL AO LOGIN) --- */
+.linkText {
+  margin-top: 2rem;
+  color: var(--TEXT-MUTED);
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.link {
+  color: var(--DARK_BLUE);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.hover {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.hover:hover {
+  transform: translateY(-3px);
+}
+
+/* --- RESPONSIVIDADE (IGUAL AO LOGIN) --- */
+@media (min-width: 768px) {
+  .cadastroPageContainer {
+    flex-direction: row;
+  }
+
+  .logoBox {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--BG);
+  }
+
+  .logo {
+    max-width: 300px;
+    height: auto;
+  }
+
+  .cadastroContainer {
+    width: 50%;
+    padding: 0;
+  }
+}
+
+/* --- ESTILOS ADICIONADOS PARA A LISTA DE FUNCIONÁRIOS --- */
+.listaContainer {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--BORDER_LIGHT);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.listaContainer h3 {
+  margin: 0 0 1rem 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--TEXT-DARK);
+  text-align: left;
+}
+
+.funcionariosList {
+  max-height: 150px; /* Altura máxima para a lista */
+  overflow-y: auto; /* Adiciona scroll se a lista for longa */
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+}
+
+.funcionarioItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.funcionarioItem:last-child {
+  border-bottom: none;
+}
+
+.funcionarioItem span:first-child {
+  color: var(--TEXT-DARK);
+}
+
+.funcionarioItem span:last-child {
+  color: var(--TEXT-MUTED);
+  font-style: italic;
+}

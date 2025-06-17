@@ -1,0 +1,58 @@
+/* src/styles/FormField.module.css */
+
+.formGroup {
+  position: relative; /* ESSENCIAL: para posicionar o label em relação a este container */
+  margin-bottom: 1.5rem; /* Aumentando um pouco o espaço */
+}
+
+.label {
+  /* Posição inicial do label (sobre o input) */
+  position: absolute;
+  left: 0.8rem; /* ANTES: 1rem. AGORA: Mais para a esquerda. */
+  top: 50%;     /* ANTES: 25%. AGORA: Perfeitamente centralizado. */
+  transform: translateY(-50%);
+  color: var(--TEXT-MUTED);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  
+  /* Animação suave */
+  transition: all 0.2s ease-out;
+  
+  /* Impede que o label receba cliques, passando-os para o input abaixo */
+  pointer-events: none;
+  background-color: var(--WHITE); /* Fundo da mesma cor do input para um efeito limpo */
+  padding: 0 5px; /* Pequeno espaçamento para não encostar na borda do input */
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--BORDER_LIGHT);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  
+  /* Adiciona uma transição para a cor da borda */
+  transition: border-color 0.2s ease;
+}
+
+/* Quando o input está em foco, muda a cor da borda */
+.input:focus {
+  outline: none;
+  border-color: var(--PRIMARY-TEAL);
+}
+
+/* --- A MÁGICA DA ANIMAÇÃO DO LABEL --- */
+
+/* Condição 1: Quando o input está em foco (o usuário está digitando) */
+/* Condição 2: Quando o input NÃO está mostrando o placeholder (ou seja, já tem texto) */
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  /* Move o label para cima, para fora do campo de texto */
+  top: 0;
+  transform: translateY(-50%); /* Ajusta a posição vertical para ficar em cima da borda */
+  font-size: 12px; /* Diminui o tamanho da fonte */
+  color: var(--PRIMARY-TEAL); /* Muda a cor para a cor primária */
+}

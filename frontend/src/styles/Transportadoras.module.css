@@ -1,0 +1,154 @@
+/* src/styles/Transportadoras.module.css */
+
+.pageContainer {
+    padding: 2.5rem;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--TEXT-DARK);
+    margin-bottom: 2rem;
+}
+
+.actionBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.searchContainer {
+    position: relative;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--BORDER_LIGHT);
+    font-size: 1rem;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--TEXT-MUTED);
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.regionFilter {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--BORDER_LIGHT);
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: var(--WHITE);
+}
+
+.addButton {
+    background-color: var(--PRIMARY_TEAL);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.addButton:hover {
+    filter: brightness(0.9);
+}
+
+/* Tabela */
+.tableContainer {
+    background-color: var(--WHITE);
+    padding: 2rem;
+    /* border: 2px solid #4d90fe;  <<< BORDA AZUL REMOVIDA */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra mantida */
+}
+
+.transportadorasTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transportadorasTable th, .transportadorasTable td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.transportadorasTable th {
+    color: var(--TEXT-MUTED);
+    font-weight: bold;
+}
+
+.statusPill {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
+
+.statusAtiva {
+    background-color: #2d6a4f;
+}
+
+.statusInativa {
+    background-color: #343a40;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 4rem;
+    color: var(--TEXT-MUTED);
+    font-size: 1.2rem;
+}
+
+.rowActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editRowButton, .removeRowButton {
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    transition: filter 0.2s ease;
+}
+
+.editRowButton:hover, .removeRowButton:hover {
+    filter: brightness(0.9);
+}
+
+.editRowButton {
+    background-color: var(--GREEN_ADD);
+}
+
+.removeRowButton {
+    background-color: var(--RED_DELETE);
+}

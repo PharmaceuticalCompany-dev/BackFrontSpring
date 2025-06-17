@@ -1,0 +1,35 @@
+/* Container principal do painel */
+.dashboardContainer {
+  width: 100%;
+  /* min-height: 100vh; <-- REMOVIDO */
+  padding: 40px; /* Note que este padding é ADICIONAL ao padding do .content. Você pode querer ajustar ou remover um deles. Sugiro manter este e zerar o do .content no passo 1. */
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Cabeçalho com o título principal */
+
+
+.mainTitle {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1.125rem; /* 18px */
+  color: #6c757d;
+  margin-top: 8px;
+}
+
+/* Grid que alinha os cards */
+.cardsGrid {
+  display: grid;
+  /* Cria colunas responsivas: 4 em telas grandes, 2 em médias e 1 em pequenas */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px; /* Espaçamento entre os cards */
+}

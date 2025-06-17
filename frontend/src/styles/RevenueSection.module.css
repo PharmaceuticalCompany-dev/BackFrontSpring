@@ -1,0 +1,51 @@
+/* src/styles/RevenueSection.module.css */
+
+/* Remove a largura total e padding do container principal, pois agora o mainContent do dashboard fará isso */
+/* .revenueContainer {
+    Estas propriedades serão agora gerenciadas pelo dashboardStyles.dashboardContainer e dashboardStyles.mainContent
+} */
+
+/* Nova classe para envolver o conteúdo real da RevenueSection (cards e tabelas) */
+.revenueContentArea {
+    padding: var(--spacing-lg); /* Padding interno para o conteúdo específico da RevenueSection */
+    flex-grow: 1; /* Para garantir que o conteúdo preencha o espaço disponível */
+    /* Adicione background-color se desejar um fundo diferente para o conteúdo em si */
+    /* background-color: var(--BG); */
+}
+
+
+.revenueMetricsGrid {
+    display: grid;
+    /* Ajusta as colunas para 3, permitindo um mínimo de 280px e expandindo */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 12px;
+    padding: 12px; /* Espaçamento entre os cards de métricas */
+    margin-bottom: var(--spacing-lg); /* Espaço entre os cards de métricas e as tabelas */
+}
+
+/* Estilo para lucro positivo/negativo (usando as variáveis globais) */
+.positiveProfit {
+    color: var(--GREEN_ADD); 
+}
+
+.negativeProfit {
+    color: var(--RED_DELETE); 
+}
+
+/* Ajustes para as seções de atividade dentro da RevenueSection (Vendas/Compras Recentes) */
+/* Por padrão, elas reutilizarão .recentActivity do Dashboard.module.css, mas podemos adicionar ajustes */
+.revenueActivity {
+    /* Garante que a margem inferior seja consistente entre as seções */
+    margin-bottom: 15px; 
+    margin-top: 20px;
+}
+
+
+
+/* Opcional: Adicione mais estilos específicos para RevenueSection aqui se necessário */
+/* Ex:
+.revenueActivity .sectionTitleText {
+    font-size: 1.6em;
+    color: #444;
+}
+*/
