@@ -131,75 +131,7 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale })
 };
 
 
-// --- Componente do Modal de Nova Transação ATUALIZADO ---
-const NewTransactionModal = ({ onClose, onSave }) => {
-    const [tipo, setTipo] = useState('');
-    const [valor, setValor] = useState('');
-    const [descricao, setDescricao] = useState('');
-
-    const handleSave = () => {
-        if (!tipo || !valor || !descricao) {
-            alert('Por favor, preencha todos os campos.');
-            return;
-        }
-
-        const parsedValor = parseFloat(valor.replace(',', '.'));
-        if (isNaN(parsedValor) || parsedValor <= 0) {
-            alert('Por favor, insira um valor numérico positivo.');
-            return;
-        }
-
-        const newTransactionData = {
-            tipo: tipo,
-            valor: parsedValor,
-            descricao: descricao
-        };
-        onSave(newTransactionData);
-    };
-
-    return (
-        <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
-                <h3 className={styles.modalTitle}>Nova Transação</h3>
-                <select
-                    className={styles.modalInput}
-                    value={tipo}
-                    onChange={(e) => setTipo(e.target.value)}
-                >
-                    <option value="">Selecione o Tipo</option>
-                    <option value="ENTRADA">Entrada</option>
-                    <option value="SAIDA">Saída</option>
-                </select>
-                <input
-                    type="text"
-                    placeholder="Inserir valor (ex: 123.45)"
-                    className={styles.modalInput}
-                    value={valor}
-                    onChange={(e) => setValor(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Inserir descrição"
-                    className={styles.modalInput}
-                    value={descricao}
-                    onChange={(e) => setDescricao(e.target.value)}
-                />
-                <div className={styles.modalButtons}>
-                    <button className={styles.cancelButton} onClick={onClose}>
-                        Cancelar
-                    </button>
-                    <button className={styles.saveButton} onClick={handleSave}>
-                        Salvar
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-// --- FIM Componente do Modal de Nova Transação ATUALIZADO ---
-
-
-// Componente: Modal de Nova Venda Programada (sem alterações)
+// Componente: Modal de Nova Venda Programada
 const NewScheduledSaleModal = ({ onClose, onSave }) => {
     const [dataVenda, setDataVenda] = useState('');
     const [produtoId, setProdutoId] = useState('');
@@ -210,7 +142,8 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const apiUrl = 'http://localhost:8081/farmaciasenai_war/produtos';
+        // --- UPDATED URL FOR PRODUCTS ---
+        const apiUrl = 'http://localhost:8090/produtos';
 
         setLoading(true);
         fetch(apiUrl)
@@ -351,11 +284,12 @@ export default function Financeiro() {
                 rendimentoAnualRes,
                 caixaTotalRes
             ] = await Promise.all([
-                fetch(`http://localhost:8081/farmaciasenai_war/vendasProg/total-mensal?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8081/farmaciasenai_war/vendasProg/estimativa-lucro-anual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8081/farmaciasenai_war/vendasProg/custo-anual-atual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8081/farmaciasenai_war/vendasProg/rendimento-anual-atual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8081/farmaciasenai_war/caixa/total?empresaId=${EMPRESA_ID}`)
+                // CHANGED URLs for financial metrics
+                fetch(`http://localhost:8090/vendasProg/total-mes-atual?empresaId=${EMPRESA_ID}`), // Corrected to use current month endpoint
+                fetch(`http://localhost:8090/vendasProg/estimativa-lucro-anual?empresaId=${EMPRESA_ID}`),
+                fetch(`http://localhost:8090/vendasProg/custo-anual?empresaId=${EMPRESA_ID}`),
+                fetch(`http://localhost:8090/vendasProg/rendimento-anual?empresaId=${EMPRESA_ID}`),
+                fetch(`http://localhost:8081/farmaciasenai_war/caixa/total?empresaId=${EMPRESA_ID}`) // Assuming caixa is still on 8081
             ]);
 
             const formatValue = (value) => (value ? value.toFixed(2).replace('.', ',') : '0,00');
@@ -416,7 +350,8 @@ export default function Financeiro() {
         setLoadingSales(true);
         setSalesError(null);
         try {
-            const response = await fetch('http://localhost:8081/farmaciasenai_war/vendasProg');
+            // CHANGED URL
+            const response = await fetch('http://localhost:8090/vendasProg');
             if (!response.ok) {
                 throw new Error('Erro ao carregar vendas programadas');
             }
@@ -435,6 +370,7 @@ export default function Financeiro() {
         setLoadingTransactions(true);
         setTransactionsError(null);
         try {
+            // Assuming caixa/transacao is still on 8081
             const response = await fetch(`http://localhost:8081/farmaciasenai_war/caixa/transacao?empresaId=${EMPRESA_ID}`);
             if (!response.ok) {
                 throw new Error('Erro ao carregar transações');
@@ -472,6 +408,7 @@ export default function Financeiro() {
             // Adiciona o ID da empresa aos dados da transação
             const payload = { ...transactionData, empresaId: EMPRESA_ID };
 
+            // Assuming caixa/transacao is still on 8081
             const response = await fetch('http://localhost:8081/farmaciasenai_war/caixa/transacao', {
                 method: 'POST',
                 headers: {
@@ -516,7 +453,8 @@ export default function Financeiro() {
 
     const handleSaveNewScheduledSale = async (saleData) => {
         try {
-            const response = await fetch('http://localhost:8081/farmaciasenai_war/vendasProg', {
+            // CHANGED URL
+            const response = await fetch('http://localhost:8090/vendasProg', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -547,7 +485,8 @@ export default function Financeiro() {
         }
 
         try {
-            const response = await fetch('http://localhost:8081/farmaciasenai_war/vendasProg/concluir', {
+            // CHANGED URL
+            const response = await fetch('http://localhost:8090/vendasProg/concluir', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
