@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Financeiro.module.css';
 
-
-// Componente: PageHeader
 const PageHeader = ({ title }) => {
     return (
         <div className={styles.pageHeader}>
@@ -12,7 +10,6 @@ const PageHeader = ({ title }) => {
     );
 };
 
-// Componente do Card Financeiro
 const FinancialCard = ({ title, value }) => {
     return (
         <div className={styles.financialCard}>
@@ -22,7 +19,6 @@ const FinancialCard = ({ title, value }) => {
     );
 };
 
-// --- Componente da Tabela de Transações ATUALIZADO ---
 const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error }) => {
     return (
         <div className={styles.transactionsContainer}>
@@ -33,19 +29,17 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error
                         <th>ID</th>
                         <th>Tipo</th>
                         <th>Valor</th>
-                        <th>Data</th> {/* Added Data column header */}
                         <th>Descrição</th>
-                        <th>Empresa ID</th>
                     </tr>
                 </thead>
                 <tbody>
                     {loading ? (
                         <tr>
-                            <td colSpan="6">Carregando transações...</td>
+                            <td colSpan="5">Carregando transações...</td>
                         </tr>
                     ) : error ? (
                         <tr>
-                            <td colSpan="6" style={{ color: 'red' }}>Erro ao carregar transações: {error}</td>
+                            <td colSpan="5" className={styles.errorText}>Erro ao carregar transações: {error}</td>
                         </tr>
                     ) : transactions.length > 0 ? (
                         transactions.map(transaction => (
@@ -53,14 +47,12 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error
                                 <td>{transaction.id}</td>
                                 <td>{transaction.tipo}</td>
                                 <td>R$ {transaction.valor ? transaction.valor.toFixed(2).replace('.', ',') : '0,00'}</td>
-                                <td>{transaction.dataTransacao ? new Date(transaction.dataTransacao).toLocaleString('pt-BR') : 'N/A'}</td>
                                 <td>{transaction.descricao}</td>
-                                <td>{transaction.empresaId || 'N/A'}</td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="6">Nenhuma transação encontrada.</td>
+                            <td colSpan="5">Nenhuma transação encontrada.</td>
                         </tr>
                     )}
                 </tbody>
@@ -71,11 +63,8 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error
         </div>
     );
 };
-// --- FIM Componente da Tabela de Transações ATUALIZADO ---
 
-
-// Componente da Tabela de Vendas Programadas (sem alterações)
-const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale }) => {
+const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, onDeleteSale }) => {
     return (
         <div className={styles.scheduledSalesContainer}>
             <h3 className={styles.scheduledSalesTitle}>Vendas Programadas</h3>
@@ -87,8 +76,8 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale })
                         <th>Valor</th>
                         <th>Produto ID</th>
                         <th>Quantidade</th>
+                        <th>Transportadora ID</th> {/* New Column Header */}
                         <th>Concluída</th>
-                        <th>Empresa ID</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -101,8 +90,8 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale })
                                 <td>R$ {sale.valorVendaCalculado ? sale.valorVendaCalculado.toFixed(2).replace('.', ',') : 'N/A'}</td>
                                 <td>{sale.produtoId}</td>
                                 <td>{sale.quantidade}</td>
+                                <td>{sale.transportadoraId || 'N/A'}</td> {/* Display transportadoraId */}
                                 <td>{sale.concluida ? 'Sim' : 'Não'}</td>
-                                <td>{sale.empresaId || 'N/A'}</td>
                                 <td>
                                     <input
                                         type="checkbox"
@@ -110,12 +99,21 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale })
                                         onChange={() => onConcluirSale(sale.id)}
                                         disabled={sale.concluida}
                                     />
+                                    {!sale.concluida && (
+                                        <button
+                                            className={`${styles.actionButton} ${styles.deleteButton}`}
+                                            onClick={() => onDeleteSale(sale.id)}
+                                            title="Excluir Venda"
+                                        >
+                                            Excluir
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="8">Nenhuma venda programada encontrada.</td>
+                            <td colSpan="8">Nenhuma venda programada encontrada.</td> {/* Adjusted colspan */}
                         </tr>
                     )}
                 </tbody>
@@ -130,39 +128,46 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale })
     );
 };
 
-
-// Componente: Modal de Nova Venda Programada
 const NewScheduledSaleModal = ({ onClose, onSave }) => {
     const [dataVenda, setDataVenda] = useState('');
     const [produtoId, setProdutoId] = useState('');
     const [quantidade, setQuantidade] = useState('');
-    const [empresaId, setEmpresaId] = useState('');
+    const [transportadoraId, setTransportadoraId] = useState(''); // New state for transportadoraId
     const [produtos, setProdutos] = useState([]);
+    const [transportadoras, setTransportadoras] = useState([]); // New state for transportadoras
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // --- UPDATED URL FOR PRODUCTS ---
-        const apiUrl = 'http://localhost:8090/produtos';
+        const fetchDependencies = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const [produtosResponse, transportadorasResponse] = await Promise.all([
+                    fetch('http://localhost:8090/produtos'),
+                    fetch('http://localhost:8090/transportadoras') // Assuming this endpoint exists
+                ]);
 
-        setLoading(true);
-        fetch(apiUrl)
-            .then((response) => {
-                if (!response.ok) throw new Error('Erro ao carregar produtos');
-                return response.json();
-            })
-            .then((data) => {
-                setProdutos(data);
-                setLoading(false);
-            })
-            .catch((err) => {
+                if (!produtosResponse.ok) throw new Error('Erro ao carregar produtos');
+                if (!transportadorasResponse.ok) throw new Error('Erro ao carregar transportadoras');
+
+                const produtosData = await produtosResponse.json();
+                const transportadorasData = await transportadorasResponse.json();
+
+                setProdutos(produtosData);
+                setTransportadoras(transportadorasData);
+            } catch (err) {
                 setError(err.message);
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchDependencies();
     }, []);
 
     const handleSave = () => {
-        if (!dataVenda || !produtoId || !quantidade || !empresaId) {
+        if (!dataVenda || !produtoId || !quantidade || !transportadoraId) { // Validate transportadoraId
             alert('Por favor, preencha todos os campos.');
             return;
         }
@@ -170,16 +175,12 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
             alert('A quantidade deve ser um número positivo.');
             return;
         }
-        if (parseInt(empresaId, 10) <= 0) {
-            alert('O ID da empresa deve ser um número positivo.');
-            return;
-        }
 
         const newSaleData = {
             dataVenda,
             produtoId: parseInt(produtoId, 10),
             quantidade: parseInt(quantidade, 10),
-            empresaId: parseInt(empresaId, 10)
+            transportadoraId: parseInt(transportadoraId, 10) // Include transportadoraId
         };
         onSave(newSaleData);
     };
@@ -197,22 +198,37 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
                 />
 
                 {loading ? (
-                    <p>Carregando produtos...</p>
+                    <p>Carregando produtos e transportadoras...</p>
                 ) : error ? (
-                    <p style={{ color: 'red' }}>{error}</p>
+                    <p className={styles.errorText}>{error}</p>
                 ) : (
-                    <select
-                        className={styles.modalInput}
-                        value={produtoId}
-                        onChange={(e) => setProdutoId(e.target.value)}
-                    >
-                        <option value="">Selecione um produto</option>
-                        {produtos.map((p) => (
-                            <option key={p.id} value={p.id}>
-                                {p.nome}
-                            </option>
-                        ))}
-                    </select>
+                    <>
+                        <select
+                            className={styles.modalInput}
+                            value={produtoId}
+                            onChange={(e) => setProdutoId(e.target.value)}
+                        >
+                            <option value="">Selecione um produto</option>
+                            {produtos.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.nome}
+                                </option>
+                            ))}
+                        </select>
+
+                        <select
+                            className={styles.modalInput}
+                            value={transportadoraId}
+                            onChange={(e) => setTransportadoraId(e.target.value)}
+                        >
+                            <option value="">Selecione uma transportadora</option>
+                            {transportadoras.map((t) => (
+                                <option key={t.id} value={t.id}>
+                                    {t.nome}
+                                </option>
+                            ))}
+                        </select>
+                    </>
                 )}
 
                 <input
@@ -221,14 +237,6 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
                     className={styles.modalInput}
                     value={quantidade}
                     onChange={(e) => setQuantidade(e.target.value)}
-                    min="1"
-                />
-                <input
-                    type="number"
-                    placeholder="ID da Empresa"
-                    className={styles.modalInput}
-                    value={empresaId}
-                    onChange={(e) => setEmpresaId(e.target.value)}
                     min="1"
                 />
 
@@ -245,20 +253,80 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
     );
 };
 
+const NewTransactionModal = ({ onClose, onSave }) => {
+    const [tipo, setTipo] = useState('');
+    const [valor, setValor] = useState('');
+    const [descricao, setDescricao] = useState('');
+
+    const handleSave = () => {
+        if (!tipo || !valor || !descricao) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+        if (parseFloat(valor) <= 0) {
+            alert('O valor deve ser um número positivo.');
+            return;
+        }
+
+        const newTransactionData = {
+            tipo,
+            valor: parseFloat(valor),
+            descricao,
+            dataTransacao: new Date().toISOString()
+        };
+        onSave(newTransactionData);
+    };
+
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <h3 className={styles.modalTitle}>Nova Transação</h3>
+                <select
+                    className={styles.modalInput}
+                    value={tipo}
+                    onChange={(e) => setTipo(e.target.value)}
+                >
+                    <option value="">Selecione o Tipo</option>
+                    <option value="ENTRADA">Entrada</option>
+                    <option value="SAIDA">Saída</option>
+                </select>
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    className={styles.modalInput}
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)}
+                    min="0.01"
+                    step="0.01"
+                />
+                <input
+                    type="text"
+                    placeholder="Descrição"
+                    className={styles.modalInput}
+                    value={descricao}
+                    onChange={(e) => setDescricao(e.target.value)}
+                />
+                <div className={styles.modalButtons}>
+                    <button className={styles.cancelButton} onClick={onClose}>
+                        Cancelar
+                    </button>
+                    <button className={styles.saveButton} onClick={handleSave}>
+                        Salvar
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function Financeiro() {
-    // ----------------------------------------------------
-    // ADICIONE ESTE useEffect PARA O TÍTULO DA PÁGINA
-    // ----------------------------------------------------
     useEffect(() => {
-        document.title = "Financeiro - Pharmacom"; // Define o título específico para esta página
-    }, []); // Array de dependências vazio para rodar apenas uma vez na montagem
-
-
-    // Definindo o ID da empresa aqui. Você pode mudar para um valor dinâmico se necessário.
-    const EMPRESA_ID = 1;
+        document.title = "Financeiro - Pharmacom";
+    }, []);
 
     const [showNewTransactionModal, setShowNewTransactionModal] = useState(false);
     const [showNewScheduledSaleModal, setShowNewScheduledSaleModal] = useState(false);
+
     const [scheduledSales, setScheduledSales] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [loadingSales, setLoadingSales] = useState(true);
@@ -266,15 +334,12 @@ export default function Financeiro() {
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactionsError, setTransactionsError] = useState(null);
 
-    // New states for financial metrics
     const [vendaMes, setVendaMes] = useState('0,00');
     const [estimativaLucroAnual, setEstimativaLucroAnual] = useState('0,00');
     const [custoAnual, setCustoAnual] = useState('0,00');
     const [rendimentoAnual, setRendimentoAnual] = useState('0,00');
     const [caixaTotal, setCaixaTotal] = useState('0,00');
 
-
-    // Function to fetch financial metrics
     const fetchFinancialMetrics = useCallback(async () => {
         try {
             const [
@@ -284,12 +349,11 @@ export default function Financeiro() {
                 rendimentoAnualRes,
                 caixaTotalRes
             ] = await Promise.all([
-                // CHANGED URLs for financial metrics
-                fetch(`http://localhost:8090/vendasProg/total-mes-atual?empresaId=${EMPRESA_ID}`), // Corrected to use current month endpoint
-                fetch(`http://localhost:8090/vendasProg/estimativa-lucro-anual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8090/vendasProg/custo-anual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8090/vendasProg/rendimento-anual?empresaId=${EMPRESA_ID}`),
-                fetch(`http://localhost:8081/farmaciasenai_war/caixa/total?empresaId=${EMPRESA_ID}`) // Assuming caixa is still on 8081
+                fetch(`http://localhost:8090/vendasProg/total-mes-atual`),
+                fetch(`http://localhost:8090/vendasProg/estimativa-lucro-anual`),
+                fetch(`http://localhost:8090/vendasProg/custo-anual`),
+                fetch(`http://localhost:8090/vendasProg/rendimento-anual`),
+                fetch(`http://localhost:8090/caixa/total`)
             ]);
 
             const formatValue = (value) => (value ? value.toFixed(2).replace('.', ',') : '0,00');
@@ -342,15 +406,12 @@ export default function Financeiro() {
             setRendimentoAnual('Erro');
             setCaixaTotal('Erro');
         }
-    }, [EMPRESA_ID]);
+    }, []);
 
-
-    // Função para buscar as vendas programadas do backend
     const fetchScheduledSales = useCallback(async () => {
         setLoadingSales(true);
         setSalesError(null);
         try {
-            // CHANGED URL
             const response = await fetch('http://localhost:8090/vendasProg');
             if (!response.ok) {
                 throw new Error('Erro ao carregar vendas programadas');
@@ -365,13 +426,11 @@ export default function Financeiro() {
         }
     }, []);
 
-    // --- NOVA FUNÇÃO: Buscar Transações do Backend ---
     const fetchTransactions = useCallback(async () => {
         setLoadingTransactions(true);
         setTransactionsError(null);
         try {
-            // Assuming caixa/transacao is still on 8081
-            const response = await fetch(`http://localhost:8081/farmaciasenai_war/caixa/transacao?empresaId=${EMPRESA_ID}`);
+            const response = await fetch(`http://localhost:8090/caixa/transacoes`);
             if (!response.ok) {
                 throw new Error('Erro ao carregar transações');
             }
@@ -383,15 +442,12 @@ export default function Financeiro() {
         } finally {
             setLoadingTransactions(false);
         }
-    }, [EMPRESA_ID]);
-    // --- FIM NOVA FUNÇÃO: Buscar Transações do Backend ---
+    }, []);
 
-
-    // Chama as funções de busca na montagem do componente
     useEffect(() => {
         fetchScheduledSales();
-        fetchTransactions(); // Chama a nova função para carregar transações
-        fetchFinancialMetrics(); // Fetch financial metrics
+        fetchTransactions();
+        fetchFinancialMetrics();
     }, [fetchScheduledSales, fetchTransactions, fetchFinancialMetrics]);
 
     const handleOpenNewTransactionModal = () => {
@@ -402,46 +458,42 @@ export default function Financeiro() {
         setShowNewTransactionModal(false);
     };
 
-    // --- NOVA FUNÇÃO: Salvar Nova Transação no Backend ---
     const handleSaveNewTransaction = async (transactionData) => {
         try {
-            // Adiciona o ID da empresa aos dados da transação
-            const payload = { ...transactionData, empresaId: EMPRESA_ID };
+            const { dataTransacao, ...dataToSend } = transactionData;
+            const formBody = new URLSearchParams(dataToSend).toString();
 
-            // Assuming caixa/transacao is still on 8081
-            const response = await fetch('http://localhost:8081/farmaciasenai_war/caixa/transacao', {
+            const response = await fetch('http://localhost:8090/caixa/transacao', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: JSON.stringify(payload),
+                body: formBody,
             });
 
             if (!response.ok) {
                 const errorText = await response.text();
                 let errorMessage = 'Erro desconhecido ao salvar transação';
                 try {
-                    const errorJson = JSON.parse(errorText); // Tenta parsear como JSON se for um erro JSON
+                    const errorJson = JSON.parse(errorText);
                     errorMessage = errorJson.error || errorJson.message || errorMessage;
                 } catch (e) {
-                    errorMessage = errorText || errorMessage; // Se não for JSON, usa o texto puro
+                    errorMessage = errorText || errorMessage;
                 }
                 throw new Error(errorMessage);
             }
 
-            const resultText = await response.text(); // O backend retorna uma string, não JSON
+            const resultText = await response.text();
             console.log('Transação salva com sucesso:', resultText);
             alert('Transação salva com sucesso!');
-            fetchTransactions(); // Recarrega a lista de transações
-            fetchFinancialMetrics(); // Also refresh financial metrics after a transaction
-            handleCloseNewTransactionModal(); // Fecha o modal
+            fetchTransactions();
+            fetchFinancialMetrics();
+            handleCloseNewTransactionModal();
         } catch (error) {
             console.error('Erro no POST de transação:', error.message);
             alert('Erro ao salvar transação: ' + error.message);
         }
     };
-    // --- FIM NOVA FUNÇÃO: Salvar Nova Transação no Backend ---
-
 
     const handleOpenNewScheduledSaleModal = () => {
         setShowNewScheduledSaleModal(true);
@@ -453,7 +505,6 @@ export default function Financeiro() {
 
     const handleSaveNewScheduledSale = async (saleData) => {
         try {
-            // CHANGED URL
             const response = await fetch('http://localhost:8090/vendasProg', {
                 method: 'POST',
                 headers: {
@@ -471,7 +522,7 @@ export default function Financeiro() {
             console.log('Venda programada salva com sucesso:', result);
             alert('Venda programada salva com sucesso!');
             fetchScheduledSales();
-            fetchFinancialMetrics(); // Also refresh financial metrics after a scheduled sale
+            fetchFinancialMetrics();
             handleCloseNewScheduledSaleModal();
         } catch (error) {
             console.error('Erro no POST de venda programada:', error.message);
@@ -485,31 +536,69 @@ export default function Financeiro() {
         }
 
         try {
-            // CHANGED URL
-            const response = await fetch('http://localhost:8090/vendasProg/concluir', {
+            const response = await fetch(`http://localhost:8090/vendasProg/${id}/concluir`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id: id }),
+                body: JSON.stringify({ empresaId: 1 }),
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro desconhecido ao concluir venda');
+                const errorText = await response.text();
+                let errorMessage = 'Erro desconhecido ao concluir venda';
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson.message || errorJson.error || errorMessage;
+                } catch (e) {
+                    errorMessage = errorText || errorMessage;
+                }
+                throw new Error(errorMessage);
             }
 
             const result = await response.json();
             if (result.concluida) {
                 alert('Venda programada concluída com sucesso!');
                 fetchScheduledSales();
-                fetchFinancialMetrics(); // Also refresh financial metrics after completing a sale
+                fetchFinancialMetrics();
             } else {
                 alert('Falha ao concluir a venda programada. Verifique o console para mais detalhes.');
             }
         } catch (error) {
             console.error('Erro ao concluir venda programada:', error.message);
             alert('Erro ao concluir venda programada: ' + error.message);
+        }
+    };
+
+    const handleDeleteSale = async (id) => {
+        if (!window.confirm('Tem certeza que deseja EXCLUIR esta venda programada? Esta ação não pode ser desfeita.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8090/vendasProg/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                let errorMessage = 'Erro desconhecido ao excluir venda';
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson.message || errorJson.error || errorMessage;
+                } catch (e) {
+                    errorMessage = errorText || errorMessage;
+                }
+                throw new Error(errorMessage);
+            }
+
+            console.log(`Venda programada com ID ${id} excluída com sucesso.`);
+            alert('Venda programada excluída com sucesso!');
+            fetchScheduledSales();
+            fetchFinancialMetrics();
+        } catch (error) {
+            console.error('Erro ao excluir venda programada:', error.message);
+            alert('Erro ao excluir venda programada: ' + error.message);
         }
     };
 
@@ -537,12 +626,13 @@ export default function Financeiro() {
                     {loadingSales ? (
                         <p>Carregando vendas programadas...</p>
                     ) : salesError ? (
-                        <p style={{ color: 'red' }}>Erro ao carregar vendas: {salesError}</p>
+                        <p className={styles.errorText}>Erro ao carregar vendas: {salesError}</p>
                     ) : (
                         <ScheduledSalesTable
                             sales={scheduledSales}
                             onNewScheduledSaleClick={handleOpenNewScheduledSaleModal}
                             onConcluirSale={handleConcluirSale}
+                            onDeleteSale={handleDeleteSale}
                         />
                     )}
                 </div>

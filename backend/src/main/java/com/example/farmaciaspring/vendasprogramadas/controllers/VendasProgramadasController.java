@@ -79,6 +79,7 @@ public class VendasProgramadasController {
     }
 
     @PostMapping("/{id}/concluir")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<VendasProgramadas> concluirVendaProgramada(@PathVariable Long id) {
         try {
             VendasProgramadas vendaConcluida = vendasProgramadasService.concluirVendaProgramada(id);

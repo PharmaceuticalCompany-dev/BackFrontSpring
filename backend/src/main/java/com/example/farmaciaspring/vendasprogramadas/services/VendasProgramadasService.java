@@ -37,8 +37,8 @@ public class VendasProgramadasService {
         Produto produto = produtoRepository.findById(vendaProgramada.getProdutoId())
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado com ID: " + vendaProgramada.getProdutoId()));
 
-        vendaProgramada.setValorVendaCalculado(produto.getPrecoVenda());
-        vendaProgramada.setCustoProdutoCalculado(produto.getPrecoCompra());
+        vendaProgramada.setValorVendaCalculado(produto.getPrecoVenda() * vendaProgramada.getQuantidade());
+        vendaProgramada.setCustoProdutoCalculado(produto.getPrecoCompra() * vendaProgramada.getQuantidade());
 
         return vendasProgramadasRepository.save(vendaProgramada);
     }
@@ -87,7 +87,7 @@ public class VendasProgramadasService {
             throw new IllegalStateException("Venda programada já foi concluída.");
         }
 
-        String descricao = "Venda programada concluída - Produto ID: " + venda.getProdutoId();
+        String descricao = "Venda programada concluída - Produto ID: " + venda.getProdutoId() + ", Quantidade: " + venda.getQuantidade();
         caixaService.registrarVendaDeProdutos(venda.getValorVendaCalculado(), descricao);
 
         venda.setConcluida(true);
@@ -110,12 +110,14 @@ public class VendasProgramadasService {
 
         existente.setDataVenda(vendaProgramadaAtualizada.getDataVenda());
         existente.setProdutoId(vendaProgramadaAtualizada.getProdutoId());
-
+        existente.setQuantidade(vendaProgramadaAtualizada.getQuantidade());
+        existente.setTransportadoraId(vendaProgramadaAtualizada.getTransportadoraId());
+        
         Produto produto = produtoRepository.findById(existente.getProdutoId())
                 .orElseThrow(() -> new IllegalArgumentException("Produto associado à venda programada não encontrado com ID: " + existente.getProdutoId()));
 
-        existente.setValorVendaCalculado(produto.getPrecoVenda());
-        existente.setCustoProdutoCalculado(produto.getPrecoCompra());
+        existente.setValorVendaCalculado(produto.getPrecoVenda() * existente.getQuantidade());
+        existente.setCustoProdutoCalculado(produto.getPrecoCompra() * existente.getQuantidade());
         existente.setConcluida(vendaProgramadaAtualizada.isConcluida());
 
         return vendasProgramadasRepository.save(existente);
@@ -133,7 +135,7 @@ public class VendasProgramadasService {
     public double calcularCustoAnual() {
         int anoAtual = LocalDate.now().getYear();
         double custoTotal = 0.0;
-        for (VendasProgramadas v : vendasProgramadasRepository.findAll()) { // Use o repositório diretamente
+        for (VendasProgramadas v : vendasProgramadasRepository.findAll()) {
             if (v.getAno() == anoAtual) {
                 custoTotal += v.getCustoProdutoCalculado();
             }
@@ -144,7 +146,7 @@ public class VendasProgramadasService {
     public double calcularRendimentoAnual() {
         int anoAtual = LocalDate.now().getYear();
         double rendimentoTotal = 0.0;
-        for (VendasProgramadas v : vendasProgramadasRepository.findAll()) { // Use o repositório diretamente
+        for (VendasProgramadas v : vendasProgramadasRepository.findAll()) {
             if (v.getAno() == anoAtual) {
                 rendimentoTotal += v.getValorVendaCalculado();
             }

@@ -1,7 +1,11 @@
 package com.example.farmaciaspring.vendasprogramadas.model;
 
-import com.example.farmaciaspring.produto.model.Produto;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
@@ -16,7 +20,10 @@ public class VendasProgramadas {
     private LocalDate dataVenda;
 
     @Column(name = "produto_id", nullable = false)
-    private Long produtoId; // Mantém o ID do produto para consulta
+    private Long produtoId;
+
+    @Column(name = "quantidade", nullable = false)
+    private Integer quantidade;
 
     @Column(name = "valor_venda_calculado", nullable = false)
     private double valorVendaCalculado;
@@ -27,14 +34,20 @@ public class VendasProgramadas {
     @Column(nullable = false)
     private boolean concluida;
 
-    public VendasProgramadas() {}
+    @Column(name = "transportadora_id")
+    private Long transportadoraId;
 
-    public VendasProgramadas(LocalDate dataVenda, Long produtoId, double valorVendaCalculado, double custoProdutoCalculado) {
+    public VendasProgramadas() {
+    }
+
+    public VendasProgramadas(LocalDate dataVenda, Long produtoId, Integer quantidade, double valorVendaCalculado, double custoProdutoCalculado, Long transportadoraId) {
         this.dataVenda = dataVenda;
         this.produtoId = produtoId;
+        this.quantidade = quantidade;
         this.valorVendaCalculado = valorVendaCalculado;
         this.custoProdutoCalculado = custoProdutoCalculado;
         this.concluida = false;
+        this.transportadoraId = transportadoraId;
     }
 
     public Long getId() {
@@ -61,6 +74,14 @@ public class VendasProgramadas {
         this.produtoId = produtoId;
     }
 
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
     public double getValorVendaCalculado() {
         return valorVendaCalculado;
     }
@@ -83,6 +104,14 @@ public class VendasProgramadas {
 
     public void setConcluida(boolean concluida) {
         this.concluida = concluida;
+    }
+
+    public Long getTransportadoraId() {
+        return transportadoraId;
+    }
+
+    public void setTransportadoraId(Long transportadoraId) {
+        this.transportadoraId = transportadoraId;
     }
 
     public int getAno() {

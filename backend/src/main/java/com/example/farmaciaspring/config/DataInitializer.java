@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-import java.util.List; // Importar List para saveAll
+import java.util.List; 
 
 @Configuration
 public class DataInitializer {
@@ -22,6 +22,7 @@ public class DataInitializer {
                 System.out.println("----- Iniciando inicialização de dados de empresas... -----");
 
                 Empresa empresa1 = new Empresa("Pharmacom", 200000.0); // Use 200000.0 para double
+                empresaRepository.save(empresa1);
             }
 
             if (setorRepository.count() == 0) {

@@ -110,11 +110,11 @@ public class CaixaService {
         return registrarTransacao(TipoTransacao.ENTRADA, valorVenda, descricao);
     }
 
-    public double calcularEstimativaLucroMensal() { // Removemos empresaId do parâmetro
+    public double calcularEstimativaLucroMensal() { 
         return 0.0;
     }
 
-    public double calcularEstimativaLucroAnual() { // Removemos empresaId do parâmetro
+    public double calcularEstimativaLucroAnual() {
         return 0.0;
     }
 }
