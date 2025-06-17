@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_farmacia
+    ports:
+      - "8020:5432"
+    environment:
+      POSTGRES_DB: farmacia_db
+      POSTGRES_USER: farmacia_user
+      POSTGRES_PASSWORD: senha123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: openjdk:17-jdk-slim
+    container_name: farmaciaspring_app
+    depends_on:
+      - db
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: ["java", "-jar", "farmaciaspring.jar"]
+    environment:
+      - SPRING_APPLICATION_NAME=farmaciaspring
+      - SERVER_PORT=8090
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/farmacia_db
+      - SPRING_DATASOURCE_USERNAME=farmacia_user
+      - SPRING_DATASOURCE_PASSWORD=senha123
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_SHOW-SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=true
+
+volumes:
+  pgdata:
