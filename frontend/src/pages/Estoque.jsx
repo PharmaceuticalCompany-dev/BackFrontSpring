@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 import styles from '../styles/Estoque.module.css';
 import RegisterProductModal from './RegisterProductModal';
 import EditProductModal from './EditProductModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
 
 function Estoque() {
+    const navigate = useNavigate(); // Inicialize useNavigate
     const [modal, setModal] = useState({ type: null, data: null });
     const [produtos, setProdutos] = useState([]); // Initialize with an empty array
     const [loading, setLoading] = useState(true); // State for loading status
@@ -122,8 +124,8 @@ function Estoque() {
                 // Prioritize 'quantidadeEstoque' if it's available directly from original product data (ideal for editing)
                 // Otherwise, parse from the 'unidade' string (e.g., "Un. 10")
                 quantidadeEstoque: updatedProduct.quantidadeEstoque !== undefined
-                                    ? parseInt(updatedProduct.quantidadeEstoque, 10)
-                                    : parseInt(updatedProduct.unidade.replace('Un. ', ''), 10),
+                                         ? parseInt(updatedProduct.quantidadeEstoque, 10)
+                                         : parseInt(updatedProduct.unidade.replace('Un. ', ''), 10),
                 empresaId: updatedProduct.empresaId || 1 // Ensure empresaId is sent
             };
 
@@ -184,6 +186,11 @@ function Estoque() {
         return acc + (p.quantidadeEstoque || 0);
     }, 0);
 
+    // Nova função para lidar com o clique do botão "Comprar Produtos"
+    const handleComprarProdutosClick = () => {
+        navigate('/compras'); // Navega para a rota /compras
+    };
+
     return (
         <div className={styles.estoqueContainer}>
             <header className={styles.header}>
@@ -195,6 +202,8 @@ function Estoque() {
 
             <div className={styles.actionsContainer}>
                 <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar</button>
+                {/* Novo botão "Comprar Produtos" */}
+                <button className={styles.actionButton} onClick={handleComprarProdutosClick}>Comprar Produtos</button>
             </div>
 
             <div className={styles.tableContainer}>

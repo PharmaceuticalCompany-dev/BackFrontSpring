@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Financeiro.module.css';
 
+// ---
+// PageHeader Component
+// ---
 const PageHeader = ({ title }) => {
     return (
         <div className={styles.pageHeader}>
@@ -10,6 +13,9 @@ const PageHeader = ({ title }) => {
     );
 };
 
+// ---
+// FinancialCard Component
+// ---
 const FinancialCard = ({ title, value }) => {
     return (
         <div className={styles.financialCard}>
@@ -19,7 +25,10 @@ const FinancialCard = ({ title, value }) => {
     );
 };
 
-const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error }) => {
+// ---
+// TransactionsTable Component
+// ---
+const TransactionsTable = ({ transactions, onNewTransactionClick, onMakePaymentClick, loading, error }) => {
     return (
         <div className={styles.transactionsContainer}>
             <h3 className={styles.transactionsTitle}>Transações</h3>
@@ -60,10 +69,16 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, loading, error
             <button className={styles.newTransactionButton} onClick={onNewTransactionClick}>
                 Nova transação
             </button>
+            <button className={styles.paymentButton} onClick={onMakePaymentClick}>
+                Realizar Pagamentos
+            </button>
         </div>
     );
 };
 
+// ---
+// ScheduledSalesTable Component
+// ---
 const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, onDeleteSale }) => {
     return (
         <div className={styles.scheduledSalesContainer}>
@@ -76,7 +91,7 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
                         <th>Valor</th>
                         <th>Produto ID</th>
                         <th>Quantidade</th>
-                        <th>Transportadora ID</th> {/* New Column Header */}
+                        <th>Transportadora ID</th>
                         <th>Concluída</th>
                         <th>Ações</th>
                     </tr>
@@ -90,7 +105,7 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
                                 <td>R$ {sale.valorVendaCalculado ? sale.valorVendaCalculado.toFixed(2).replace('.', ',') : 'N/A'}</td>
                                 <td>{sale.produtoId}</td>
                                 <td>{sale.quantidade}</td>
-                                <td>{sale.transportadoraId || 'N/A'}</td> {/* Display transportadoraId */}
+                                <td>{sale.transportadoraId || 'N/A'}</td>
                                 <td>{sale.concluida ? 'Sim' : 'Não'}</td>
                                 <td>
                                     <input
@@ -113,7 +128,7 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="8">Nenhuma venda programada encontrada.</td> {/* Adjusted colspan */}
+                            <td colSpan="8">Nenhuma venda programada encontrada.</td>
                         </tr>
                     )}
                 </tbody>
@@ -128,13 +143,16 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
     );
 };
 
+// ---
+// NewScheduledSaleModal Component
+// ---
 const NewScheduledSaleModal = ({ onClose, onSave }) => {
     const [dataVenda, setDataVenda] = useState('');
     const [produtoId, setProdutoId] = useState('');
     const [quantidade, setQuantidade] = useState('');
-    const [transportadoraId, setTransportadoraId] = useState(''); // New state for transportadoraId
+    const [transportadoraId, setTransportadoraId] = useState('');
     const [produtos, setProdutos] = useState([]);
-    const [transportadoras, setTransportadoras] = useState([]); // New state for transportadoras
+    const [transportadoras, setTransportadoras] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -145,7 +163,7 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
             try {
                 const [produtosResponse, transportadorasResponse] = await Promise.all([
                     fetch('http://localhost:8090/produtos'),
-                    fetch('http://localhost:8090/transportadoras') // Assuming this endpoint exists
+                    fetch('http://localhost:8090/transportadoras')
                 ]);
 
                 if (!produtosResponse.ok) throw new Error('Erro ao carregar produtos');
@@ -167,7 +185,7 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
     }, []);
 
     const handleSave = () => {
-        if (!dataVenda || !produtoId || !quantidade || !transportadoraId) { // Validate transportadoraId
+        if (!dataVenda || !produtoId || !quantidade || !transportadoraId) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
@@ -180,7 +198,7 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
             dataVenda,
             produtoId: parseInt(produtoId, 10),
             quantidade: parseInt(quantidade, 10),
-            transportadoraId: parseInt(transportadoraId, 10) // Include transportadoraId
+            transportadoraId: parseInt(transportadoraId, 10)
         };
         onSave(newSaleData);
     };
@@ -238,6 +256,7 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
                     value={quantidade}
                     onChange={(e) => setQuantidade(e.target.value)}
                     min="1"
+                    step="1"
                 />
 
                 <div className={styles.modalButtons}>
@@ -253,6 +272,9 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
     );
 };
 
+// ---
+// NewTransactionModal Component
+// ---
 const NewTransactionModal = ({ onClose, onSave }) => {
     const [tipo, setTipo] = useState('');
     const [valor, setValor] = useState('');
@@ -319,6 +341,9 @@ const NewTransactionModal = ({ onClose, onSave }) => {
     );
 };
 
+// ---
+// Financeiro Main Component
+// ---
 export default function Financeiro() {
     useEffect(() => {
         document.title = "Financeiro - Pharmacom";
@@ -340,6 +365,9 @@ export default function Financeiro() {
     const [rendimentoAnual, setRendimentoAnual] = useState('0,00');
     const [caixaTotal, setCaixaTotal] = useState('0,00');
 
+    // ---
+    // Fetch Financial Metrics
+    // ---
     const fetchFinancialMetrics = useCallback(async () => {
         try {
             const [
@@ -408,6 +436,9 @@ export default function Financeiro() {
         }
     }, []);
 
+    // ---
+    // Fetch Scheduled Sales
+    // ---
     const fetchScheduledSales = useCallback(async () => {
         setLoadingSales(true);
         setSalesError(null);
@@ -426,6 +457,9 @@ export default function Financeiro() {
         }
     }, []);
 
+    // ---
+    // Fetch Transactions
+    // ---
     const fetchTransactions = useCallback(async () => {
         setLoadingTransactions(true);
         setTransactionsError(null);
@@ -444,12 +478,18 @@ export default function Financeiro() {
         }
     }, []);
 
+    // ---
+    // Initial Data Fetch on Component Mount
+    // ---
     useEffect(() => {
         fetchScheduledSales();
         fetchTransactions();
         fetchFinancialMetrics();
     }, [fetchScheduledSales, fetchTransactions, fetchFinancialMetrics]);
 
+    // ---
+    // Transaction Modal Handlers
+    // ---
     const handleOpenNewTransactionModal = () => {
         setShowNewTransactionModal(true);
     };
@@ -461,6 +501,7 @@ export default function Financeiro() {
     const handleSaveNewTransaction = async (transactionData) => {
         try {
             const { dataTransacao, ...dataToSend } = transactionData;
+            // Using URLSearchParams for x-www-form-urlencoded
             const formBody = new URLSearchParams(dataToSend).toString();
 
             const response = await fetch('http://localhost:8090/caixa/transacao', {
@@ -495,6 +536,9 @@ export default function Financeiro() {
         }
     };
 
+    // ---
+    // Scheduled Sale Modal Handlers
+    // ---
     const handleOpenNewScheduledSaleModal = () => {
         setShowNewScheduledSaleModal(true);
     };
@@ -530,6 +574,9 @@ export default function Financeiro() {
         }
     };
 
+    // ---
+    // Conclude Sale Handler
+    // ---
     const handleConcluirSale = async (id) => {
         if (!window.confirm('Tem certeza que deseja concluir esta venda programada?')) {
             return;
@@ -541,7 +588,7 @@ export default function Financeiro() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ empresaId: 1 }),
+                body: JSON.stringify({ empresaId: 1 }), // Assuming a default empresaId of 1
             });
 
             if (!response.ok) {
@@ -560,6 +607,7 @@ export default function Financeiro() {
             if (result.concluida) {
                 alert('Venda programada concluída com sucesso!');
                 fetchScheduledSales();
+                fetchTransactions(); // Refresh transactions as concluding a sale might affect financial movements
                 fetchFinancialMetrics();
             } else {
                 alert('Falha ao concluir a venda programada. Verifique o console para mais detalhes.');
@@ -570,6 +618,9 @@ export default function Financeiro() {
         }
     };
 
+    // ---
+    // Delete Sale Handler
+    // ---
     const handleDeleteSale = async (id) => {
         if (!window.confirm('Tem certeza que deseja EXCLUIR esta venda programada? Esta ação não pode ser desfeita.')) {
             return;
@@ -602,6 +653,46 @@ export default function Financeiro() {
         }
     };
 
+    // ---
+    // Handle Salary Payments
+    // ---
+    const handleMakeSalaryPayment = async () => {
+        if (!window.confirm('Tem certeza que deseja realizar o pagamento de salários? Isso registrará uma saída no caixa.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8090/caixa/pagamento-salarios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ empresaId: 1 }), // Assuming default empresaId
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                let errorMessage = 'Erro desconhecido ao realizar pagamento de salários';
+                try {
+                    const errorJson = JSON.parse(errorText);
+                    errorMessage = errorJson.error || errorJson.message || errorMessage;
+                } catch (e) {
+                    errorMessage = errorText || errorMessage;
+                }
+                throw new Error(errorMessage);
+            }
+
+            const resultText = await response.text();
+            console.log('Pagamento de salários realizado com sucesso:', resultText);
+            alert('Pagamento de salários realizado com sucesso!');
+            fetchTransactions();
+            fetchFinancialMetrics();
+        } catch (error) {
+            console.error('Erro ao realizar pagamento de salários:', error.message);
+            alert('Erro ao realizar pagamento de salários: ' + error.message);
+        }
+    };
+
     return (
         <div className={styles.mainContentWrapper}>
             <PageHeader title="Financeiro da Farmácia" />
@@ -619,6 +710,7 @@ export default function Financeiro() {
                     <TransactionsTable
                         transactions={transactions}
                         onNewTransactionClick={handleOpenNewTransactionModal}
+                        onMakePaymentClick={handleMakeSalaryPayment}
                         loading={loadingTransactions}
                         error={transactionsError}
                     />

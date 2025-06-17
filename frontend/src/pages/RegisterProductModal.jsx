@@ -27,10 +27,6 @@ function RegisterProductModal({ onClose, onSave }) {
                         <input type="text" id="nome" name="nome" value={product.nome} onChange={handleChange} required />
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="id">ID do Produto</label>
-                        <input type="text" id="id" name="id" value={product.id} onChange={handleChange} required />
-                    </div>
-                    <div className={styles.formGroup}>
                         <label htmlFor="valorCompra">Valor de Compra</label>
                         <input type="text" id="valorCompra" name="valorCompra" placeholder="Ex: 150,00" value={product.valorCompra} onChange={handleChange} required />
                     </div>
@@ -38,10 +34,7 @@ function RegisterProductModal({ onClose, onSave }) {
                         <label htmlFor="valorVenda">Valor de Venda</label>
                         <input type="text" id="valorVenda" name="valorVenda" placeholder="Ex: 200,00" value={product.valorVenda} onChange={handleChange} required />
                     </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="quantidade">Quantidade em Estoque</label>
-                        <input type="number" id="quantidade" name="quantidade" placeholder="Ex: 10" value={product.quantidade} onChange={handleChange} required />
-                    </div>
+                    
                     <div className={styles.formActions}>
                         {/* BOTÕES COM A ORDEM CORRIGIDA */}
                         <button type="button" onClick={onClose} className={styles.cancelButton}>Cancelar</button>
