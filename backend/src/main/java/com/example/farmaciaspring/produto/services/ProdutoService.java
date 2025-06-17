@@ -54,4 +54,20 @@ public class ProdutoService {
                 })
                 .orElseThrow(() -> new RuntimeException("Produto com ID " + id + " não encontrado para atualização."));
     }
+
+    public Produto diminuirEstoque(Long produtoId, int quantidade) {
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade a ser diminuída deve ser maior que zero.");
+        }
+
+        return produtoRepository.findById(produtoId)
+                .map(produto -> {
+                    if (produto.getQuantidadeEstoque() < quantidade) {
+                        throw new IllegalStateException("Estoque insuficiente para o produto: " + produto.getNome());
+                    }
+                    produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - quantidade);
+                    return produtoRepository.save(produto);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Produto com ID " + produtoId + " não encontrado."));
+    }
 }

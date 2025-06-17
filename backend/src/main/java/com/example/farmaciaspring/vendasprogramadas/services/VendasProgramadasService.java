@@ -3,6 +3,7 @@ package com.example.farmaciaspring.vendasprogramadas.services;
 import com.example.farmaciaspring.caixa.services.CaixaService;
 import com.example.farmaciaspring.produto.model.Produto;
 import com.example.farmaciaspring.produto.repository.ProdutoRepository;
+import com.example.farmaciaspring.produto.services.ProdutoService;
 import com.example.farmaciaspring.vendasprogramadas.model.VendasProgramadas;
 import com.example.farmaciaspring.vendasprogramadas.repository.VendasProgramadasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,16 @@ public class VendasProgramadasService {
     private final VendasProgramadasRepository vendasProgramadasRepository;
     private final ProdutoRepository produtoRepository;
     private final CaixaService caixaService;
+    private final ProdutoService produtoService;
 
     @Autowired
     public VendasProgramadasService(VendasProgramadasRepository vendasProgramadasRepository,
                                     ProdutoRepository produtoRepository,
-                                    CaixaService caixaService) {
+                                    CaixaService caixaService, ProdutoService produtoService) {
         this.vendasProgramadasRepository = vendasProgramadasRepository;
         this.produtoRepository = produtoRepository;
         this.caixaService = caixaService;
+        this.produtoService = produtoService;
     }
 
     @Transactional
@@ -86,6 +89,8 @@ public class VendasProgramadasService {
         if (venda.isConcluida()) {
             throw new IllegalStateException("Venda programada já foi concluída.");
         }
+
+        produtoService.diminuirEstoque(venda.getProdutoId(), venda.getQuantidade());
 
         String descricao = "Venda programada concluída - Produto ID: " + venda.getProdutoId() + ", Quantidade: " + venda.getQuantidade();
         caixaService.registrarVendaDeProdutos(venda.getValorVendaCalculado(), descricao);
