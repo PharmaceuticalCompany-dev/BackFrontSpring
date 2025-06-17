@@ -188,14 +188,18 @@ function Funcionarios() {
         <div className={styles.funcionarioContainer}>
             <header className={styles.header}>
                 <h1>Funcionários</h1>
+
                 <div className={styles.headerActions}>
                     <p>Total de funcionários: {funcionarios.length}</p>
                 </div>
+                <div className={styles.actionsContainer}>
+                    <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar Funcionário
+                    </button>
+                </div>
+
+
             </header>
 
-            <div className={styles.actionsContainer}>
-                <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar Funcionário</button>
-            </div>
 
             <div className={styles.tableContainer}>
                 {loading ? (

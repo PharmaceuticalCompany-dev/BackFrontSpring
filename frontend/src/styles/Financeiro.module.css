@@ -103,6 +103,7 @@
     max-height: 50vh;
     overflow-y: auto;
     position: relative;
+    width: 100%;
 }
 
 .transactionsTitle {
@@ -154,7 +155,7 @@
     align-self: flex-end;
     background-color: var(--PRIMARY_TEAL);
     color: white;
-    padding: 10px 20px;
+    padding: 0 10px 0 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -192,9 +193,9 @@
 /* NOVOS ESTILOS: Botão Nova Venda Programada */
 /* Reutiliza a maioria dos estilos do botão de transação */
 .newScheduledSaleButton {
-    align-self: flex-end; /* Alinha à direita */
-    margin-top: 20px; /* Adiciona um espaço acima do botão, se necessário */
-    background-color: var(--PRIMARY_TEAL); /* Cor verde, igual ao outro botão */
+    align-self: flex-end;
+    margin-top: auto;
+    background-color: var(--PRIMARY_TEAL);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -211,25 +212,26 @@
 
 
 .scheduledSalesContainer {
-    position: relative;
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Ocupa o restante da altura disponível na coluna direita */
-    overflow-y: auto; /* Adiciona scroll se o conteúdo for maior que a altura disponível */
-    height: 350px;
-    max-height: 50vh;
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 320px;
+    position: relative;
+    width: 100%;
+
 }
 
 .scheduledSalesTitle {
-    position: absolute;
     margin-top: 0;
     margin-bottom: 20px;
     color: #333;
     font-size: 1.3em;
+    position: static;
 }
 
 .scheduledSalesTable {
