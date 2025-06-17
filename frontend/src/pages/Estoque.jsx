@@ -1,87 +1,71 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importe useNavigate
-import styles from '../styles/Estoque.module.css';
-import RegisterProductModal from './RegisterProductModal';
+import { useNavigate } from 'react-router-dom';
+// Using the specific modal styles for consistent appearance (still needed for Register/Edit Modals)
+import modalStyles from '../styles/RegisterProductModal.module.css'; 
+import styles from '../styles/Estoque.module.css'; // General Estoque styles
+import RegisterProductModal from './RegisterProductModal'; 
 import EditProductModal from './EditProductModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
 
+// --- Estoque Main Component ---
 function Estoque() {
-    const navigate = useNavigate(); // Inicialize useNavigate
+    const navigate = useNavigate();
     const [modal, setModal] = useState({ type: null, data: null });
-    const [produtos, setProdutos] = useState([]); // Initialize with an empty array
-    const [loading, setLoading] = useState(true); // State for loading status
-    const [error, setError] = useState(null); // State for error messages
+    const [produtos, setProdutos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    // Removed: const [showBuyProductModal, setShowBuyProductModal] = useState(false);
 
-    // Define your API endpoint
-    // Ensure this matches your Spring Boot application's port and context path
     const API_URL = 'http://localhost:8090/produtos';
+    // Removed: const COMPRAS_API_URL = 'http://localhost:8090/compras';
 
     useEffect(() => {
-        document.title = "Estoque - Pharmacom"; // Define o título específico para esta página
+        document.title = "Estoque - Pharmacom";
     }, []);
 
-    // --- Function to fetch products from the API ---
     const fetchProducts = useCallback(async () => {
         setLoading(true);
-        setError(null); // Clear previous errors
+        setError(null);
         try {
             const response = await fetch(API_URL);
             if (!response.ok) {
-                // If response is not OK (e.g., 404, 500), throw an error
                 throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
             }
             const data = await response.json();
 
-            // --- Crucial mapping: Backend field names to Frontend field names ---
             const formattedData = data.map(product => ({
                 id: product.id,
                 nome: product.nome,
-                // Map 'precoCompra' from backend to 'valorCompra' for frontend display
-                // Ensure currency formatting for display
                 valorCompra: product.precoCompra != null ? product.precoCompra.toFixed(2).replace('.', ',') : '0,00',
-                // Map 'precoVenda' from backend to 'valorVenda' for frontend display
-                // Ensure currency formatting for display
                 valorVenda: product.precoVenda != null ? product.precoVenda.toFixed(2).replace('.', ',') : '0,00',
-                // Map 'quantidadeEstoque' from backend to 'unidade' for frontend display (e.g., "Un. 10")
                 unidade: `Un. ${product.quantidadeEstoque || 0}`,
-                // Keep the original quantity value from backend for editing purposes
-                quantidadeEstoque: product.quantidadeEstoque || 0, // Ensure it's a number, default to 0
-                // Assuming empresaId is also part of the product object in the backend
+                quantidadeEstoque: product.quantidadeEstoque || 0,
                 empresaId: product.empresaId
             }));
             setProdutos(formattedData);
         } catch (err) {
             console.error("Erro ao buscar produtos:", err);
-            // More user-friendly error message
             setError(`Falha ao carregar produtos. Verifique se o backend está rodando em '${API_URL}' e se não há problemas de rede/CORS. Detalhes: ${err.message}`);
         } finally {
             setLoading(false);
         }
-    }, [API_URL]); // Add API_URL to dependencies, though it's constant
+    }, [API_URL]);
 
-    // --- useEffect to load products when the component mounts ---
     useEffect(() => {
         fetchProducts();
-    }, [fetchProducts]); // Dependency array ensures fetchProducts is called when it changes (which it won't due to useCallback)
+    }, [fetchProducts]);
 
-    // --- Modal Control Functions ---
     const openModal = (type, data = null) => setModal({ type, data });
     const closeModal = () => setModal({ type: null, data: null });
 
-    // --- Handle Add Product (with API call) ---
     const handleAddProduct = async (productData) => {
         try {
-            // Prepare data for the API, using backend's expected field names
             const productToSend = {
-                // Do NOT include 'id' for POST requests, as the backend generates it.
                 nome: productData.nome,
-                // Convert string values with ',' to numbers with '.' for backend
                 precoCompra: parseFloat(productData.valorCompra.replace(',', '.')),
                 precoVenda: parseFloat(productData.valorVenda.replace(',', '.')),
-                quantidadeEstoque: parseInt(productData.quantidade, 10), // Use backend's 'quantidadeEstoque'
-                // Ensure empresaId is sent as expected by backend (e.g., as a Long in Java)
-                // Assuming `empresaId` is fixed to 1 for now, adjust if dynamic
-                empresaId: productData.empresaId || 1 // Use existing if provided, otherwise default
+                quantidadeEstoque: parseInt(productData.quantidade, 10),
+                empresaId: productData.empresaId || 1
             };
 
             const response = await fetch(API_URL, {
@@ -93,17 +77,13 @@ function Estoque() {
             });
 
             if (!response.ok) {
-                const errorBody = await response.text(); // Get raw text to parse for more details
-                console.error("Erro response body:", errorBody); // Log the full error body for debugging
+                const errorBody = await response.text();
+                console.error("Erro response body:", errorBody);
                 throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
             }
 
-            // You might want to parse the response if the backend returns the new product
-            // const newProduct = await response.json();
-            // alert(`Produto "${newProduct.nome}" adicionado com sucesso com ID: ${newProduct.id}!`);
-
             alert('Produto adicionado com sucesso!');
-            fetchProducts(); // Re-fetch products to update the table with new data
+            fetchProducts();
             closeModal();
         } catch (err) {
             console.error("Erro ao adicionar produto:", err);
@@ -111,26 +91,21 @@ function Estoque() {
         }
     };
 
-    // --- Handle Edit Product (with API call) ---
     const handleEditProduct = async (updatedProduct) => {
         try {
-            // Prepare data for the API, using backend's expected field names
             const productToSend = {
-                id: updatedProduct.id, // ID must be included for PUT/update
+                id: updatedProduct.id,
                 nome: updatedProduct.nome,
                 precoCompra: parseFloat(updatedProduct.valorCompra.replace(',', '.')),
                 precoVenda: parseFloat(updatedProduct.valorVenda.replace(',', '.')),
-                // Correctly extract quantity for backend:
-                // Prioritize 'quantidadeEstoque' if it's available directly from original product data (ideal for editing)
-                // Otherwise, parse from the 'unidade' string (e.g., "Un. 10")
                 quantidadeEstoque: updatedProduct.quantidadeEstoque !== undefined
-                                         ? parseInt(updatedProduct.quantidadeEstoque, 10)
-                                         : parseInt(updatedProduct.unidade.replace('Un. ', ''), 10),
-                empresaId: updatedProduct.empresaId || 1 // Ensure empresaId is sent
+                                        ? parseInt(updatedProduct.quantidadeEstoque, 10)
+                                        : parseInt(updatedProduct.unidade.replace('Un. ', ''), 10),
+                empresaId: updatedProduct.empresaId || 1
             };
 
             const response = await fetch(`${API_URL}/${updatedProduct.id}`, {
-                method: 'PUT', // Assuming PUT method for updates
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -138,13 +113,13 @@ function Estoque() {
             });
 
             if (!response.ok) {
-                const errorBody = await response.text(); // Get raw text for more details
-                console.error("Erro response body:", errorBody); // Log for debugging
+                const errorBody = await response.text();
+                console.error("Erro response body:", errorBody);
                 throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
             }
 
             alert('Produto editado com sucesso!');
-            fetchProducts(); // Re-fetch products to update the table
+            fetchProducts();
             closeModal();
         } catch (err) {
             console.error("Erro ao editar produto:", err);
@@ -152,7 +127,6 @@ function Estoque() {
         }
     };
 
-    // --- Handle Remove Product (with API call) ---
     const handleRemoveProduct = async () => {
         if (!modal.data || !modal.data.id) {
             alert("Nenhum produto selecionado para remover.");
@@ -165,13 +139,13 @@ function Estoque() {
             });
 
             if (!response.ok) {
-                const errorBody = await response.text(); // Get raw text for more details
-                console.error("Erro response body:", errorBody); // Log for debugging
+                const errorBody = await response.text();
+                console.error("Erro response body:", errorBody);
                 throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
             }
 
             alert('Produto removido com sucesso!');
-            fetchProducts(); // Re-fetch products to update the table
+            fetchProducts();
             closeModal();
         } catch (err) {
             console.error("Erro ao remover produto:", err);
@@ -179,17 +153,12 @@ function Estoque() {
         }
     };
 
-    // --- Calculate total stock from fetched products ---
     const totalEstoque = produtos.reduce((acc, p) => {
-        // Use the raw `quantidadeEstoque` from the formatted data directly for calculation
-        // It's already parsed as an integer during `fetchProducts`
         return acc + (p.quantidadeEstoque || 0);
     }, 0);
 
-    // Nova função para lidar com o clique do botão "Comprar Produtos"
-    const handleComprarProdutosClick = () => {
-        navigate('/compras'); // Navega para a rota /compras
-    };
+    // Removed: handleComprarProdutosClick and handleCloseBuyProductModal
+    // Removed: handleBuyProduct
 
     return (
         <div className={styles.estoqueContainer}>
@@ -202,8 +171,7 @@ function Estoque() {
 
             <div className={styles.actionsContainer}>
                 <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar</button>
-                {/* Novo botão "Comprar Produtos" */}
-                <button className={styles.actionButton} onClick={handleComprarProdutosClick}>Comprar Produtos</button>
+                {/* Removed: <button className={styles.actionButton} onClick={handleComprarProdutosClick}>Comprar Produtos</button> */}
             </div>
 
             <div className={styles.tableContainer}>
@@ -250,6 +218,9 @@ function Estoque() {
             {modal.type === 'add' && <RegisterProductModal onClose={closeModal} onSave={handleAddProduct} />}
             {modal.type === 'edit' && <EditProductModal productToEdit={modal.data} onClose={closeModal} onSave={handleEditProduct} />}
             {modal.type === 'remove' && <ConfirmRemoveModal product={modal.data} onClose={closeModal} onConfirm={handleRemoveProduct} />}
+
+            {/* Removed: Conditionally render the BuyProductModal */}
+            {/* Removed: {showBuyProductModal && ( <BuyProductModal ... /> )} */}
         </div>
     );
 }
