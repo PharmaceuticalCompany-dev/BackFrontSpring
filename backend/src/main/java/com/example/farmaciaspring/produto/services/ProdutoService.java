@@ -22,6 +22,7 @@ public class ProdutoService {
         if(produto == null) {
             throw new IllegalArgumentException("Produto não pode ser null");
         }
+        
         return produtoRepository.save(produto);
     }
 

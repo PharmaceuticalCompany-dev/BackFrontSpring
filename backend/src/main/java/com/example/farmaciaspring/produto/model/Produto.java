@@ -21,6 +21,7 @@ public class Produto {
     @Column(name = "quantidade_estoque", nullable = false)
     private int quantidadeEstoque;
 
+
     public Produto() {}
 
     public Produto(String nome, double precoCompra, double precoVenda, int quantidadeEstoque) {
@@ -67,7 +68,10 @@ public class Produto {
     }
 
     public void setQuantidadeEstoque(int quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
+        if(quantidadeEstoque > 0) {
+            this.quantidadeEstoque = quantidadeEstoque;
+        }    
+        
     }
 
     @Override
