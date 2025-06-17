@@ -4,15 +4,21 @@
     /* background-color: var(--WHITE); */
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
-    height: 100%;
 }
 
 /* Cabeçalho: Título e Total */
 .header {
+    position: sticky; /* OU use 'fixed' se quiser fixo absoluto */
+    top: 0;
+    z-index: 100; /* Garante que fique acima dos outros */
+    background-color: white; /* Pode usar um blur também */
+    backdrop-filter: blur(10px); /* Opcional: efeito vidro fosco */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil ao rolar */
+    border-radius: 10px;
 }
 
 .header h1 {
@@ -48,6 +54,7 @@
     font-size: 1rem;
     font-weight: 500;
     transition: background-color 0.2s ease;
+    margin-top: 20px;
 }
 
 .actionButton:hover {
