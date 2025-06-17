@@ -2,7 +2,6 @@ package com.example.farmaciaspring.produto.services;
 
 import com.example.farmaciaspring.produto.model.Produto;
 import com.example.farmaciaspring.produto.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
