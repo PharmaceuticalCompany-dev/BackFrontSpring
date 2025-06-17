@@ -35,9 +35,7 @@ public class VendasProgramadasController {
             vendaProgramada.setId(null);
             VendasProgramadas novaVenda = vendasProgramadasService.adicionarVendaProgramada(vendaProgramada);
             return new ResponseEntity<>(novaVenda, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        }  catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao adicionar venda programada: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -84,9 +82,7 @@ public class VendasProgramadasController {
         try {
             VendasProgramadas vendaConcluida = vendasProgramadasService.concluirVendaProgramada(id);
             return new ResponseEntity<>(vendaConcluida, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        }  catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao concluir venda programada: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

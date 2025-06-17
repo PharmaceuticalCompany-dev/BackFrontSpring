@@ -26,6 +26,7 @@ public class CaixaController {
         this.caixaService = caixaService;
     }
 
+//aqui usei o RequestParam, ai tem q colcoar na url pra acessar a api
     @PostMapping("/transacao")
     public ResponseEntity<Caixa> registrarTransacao(
             @RequestParam TipoTransacao tipo,
@@ -34,10 +35,6 @@ public class CaixaController {
         try {
             Caixa novaTransacao = caixaService.registrarTransacao(tipo, valor, descricao);
             return new ResponseEntity<>(novaTransacao, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao registrar transação: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,10 +60,6 @@ public class CaixaController {
                 return new ResponseEntity<>(transacao, HttpStatus.CREATED);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao registrar pagamento de salários: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -79,10 +72,6 @@ public class CaixaController {
         try {
             Caixa transacao = caixaService.registrarCompraDeProdutos(valorCompra, descricao);
             return new ResponseEntity<>(transacao, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao registrar compra de produtos: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -95,24 +84,8 @@ public class CaixaController {
         try {
             Caixa transacao = caixaService.registrarVendaDeProdutos(valorVenda, descricao);
             return new ResponseEntity<>(transacao, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (IllegalStateException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (RuntimeException e) {
             return new ResponseEntity("Erro interno ao registrar venda de produtos: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping("/lucro-mensal")
-    public ResponseEntity<Double> calcularEstimativaLucroMensal() {
-        double lucro = caixaService.calcularEstimativaLucroMensal();
-        return new ResponseEntity<>(lucro, HttpStatus.OK);
-    }
-
-    @GetMapping("/lucro-anual")
-    public ResponseEntity<Double> calcularEstimativaLucroAnual() {
-        double lucro = caixaService.calcularEstimativaLucroAnual();
-        return new ResponseEntity<>(lucro, HttpStatus.OK);
     }
 }

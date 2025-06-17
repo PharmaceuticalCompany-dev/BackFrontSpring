@@ -7,7 +7,6 @@ import com.example.farmaciaspring.empresa.repository.EmpresaRepository;
 import com.example.farmaciaspring.enums.TipoTransacao;
 import com.example.farmaciaspring.funcionario.model.Funcionario;
 import com.example.farmaciaspring.funcionario.repository.FuncionarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ public class CaixaService {
 
     private static final Long EMPRESA_ID_FIXO = 1L;
 
-    @Autowired
+  
     public CaixaService(CaixaRepository caixaRepository,
                         EmpresaRepository empresaRepository,
                         FuncionarioRepository funcionarioRepository) {
@@ -69,13 +68,6 @@ public class CaixaService {
         return caixaRepository.findAll();
     }
 
-    @Transactional
-    public void inicializarCaixaEmpresa(double valorInicial) {
-        Empresa empresa = empresaRepository.findById(EMPRESA_ID_FIXO)
-                .orElseThrow(() -> new IllegalStateException("Empresa principal com ID " + EMPRESA_ID_FIXO + " não encontrada para inicializar o caixa."));
-        empresa.setCaixaTotal(valorInicial);
-        empresaRepository.save(empresa);
-    }
 
     @Transactional
     public Caixa registrarPagamentoSalarios() {
@@ -108,13 +100,5 @@ public class CaixaService {
             throw new IllegalArgumentException("O valor da venda deve ser positivo.");
         }
         return registrarTransacao(TipoTransacao.ENTRADA, valorVenda, descricao);
-    }
-
-    public double calcularEstimativaLucroMensal() { 
-        return 0.0;
-    }
-
-    public double calcularEstimativaLucroAnual() {
-        return 0.0;
     }
 }

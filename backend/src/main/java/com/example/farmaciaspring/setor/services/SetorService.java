@@ -3,7 +3,6 @@ package com.example.farmaciaspring.setor.services;
 import com.example.farmaciaspring.enums.TipoSetor;
 import com.example.farmaciaspring.setor.model.Setor;
 import com.example.farmaciaspring.setor.repository.SetorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class SetorService {
 
     private final SetorRepository setorRepository;
 
-    @Autowired
     public SetorService(SetorRepository setorRepository) {
         this.setorRepository = setorRepository;
     }

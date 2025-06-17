@@ -6,12 +6,9 @@ import com.example.farmaciaspring.funcionario.model.Funcionario;
 import com.example.farmaciaspring.funcionario.repository.FuncionarioRepository;
 import com.example.farmaciaspring.setor.model.Setor;
 import com.example.farmaciaspring.setor.repository.SetorRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +18,6 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final SetorRepository setorRepository;
 
-    @Autowired
     public FuncionarioService(FuncionarioRepository funcionarioRepository, SetorRepository setorRepository) {
         this.funcionarioRepository = funcionarioRepository;
         this.setorRepository = setorRepository;

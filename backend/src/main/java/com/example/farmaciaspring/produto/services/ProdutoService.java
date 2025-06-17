@@ -2,7 +2,6 @@ package com.example.farmaciaspring.produto.services;
 
 import com.example.farmaciaspring.produto.model.Produto;
 import com.example.farmaciaspring.produto.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class ProdutoService {
 
     private final ProdutoRepository produtoRepository;
 
-    @Autowired
     public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
     }
@@ -22,6 +20,7 @@ public class ProdutoService {
         if(produto == null) {
             throw new IllegalArgumentException("Produto não pode ser null");
         }
+        
         return produtoRepository.save(produto);
     }
 
@@ -53,5 +52,21 @@ public class ProdutoService {
                     return produtoRepository.save(produtoExistente);
                 })
                 .orElseThrow(() -> new RuntimeException("Produto com ID " + id + " não encontrado para atualização."));
+    }
+
+    public Produto diminuirEstoque(Long produtoId, int quantidade) {
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade a ser diminuída deve ser maior que zero.");
+        }
+
+        return produtoRepository.findById(produtoId)
+                .map(produto -> {
+                    if (produto.getQuantidadeEstoque() < quantidade) {
+                        throw new IllegalStateException("Estoque insuficiente para o produto: " + produto.getNome());
+                    }
+                    produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - quantidade);
+                    return produtoRepository.save(produto);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Produto com ID " + produtoId + " não encontrado."));
     }
 }
