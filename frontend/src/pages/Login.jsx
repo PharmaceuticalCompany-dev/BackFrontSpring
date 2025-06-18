@@ -79,12 +79,7 @@ function Login() {
                         />
                         <button type="submit" className={styles.btn}>Entrar</button>
                     </form>
-                    <div className={styles.linkText}>
-                        <p>Não tem uma conta?</p>
-                        <p className={styles.hover}>
-                            <a href="/cadastro" className={styles.link}>Cadastre-se aqui</a>
-                        </p>
-                    </div>
+                    
                 </div>
             </div>
 

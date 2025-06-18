@@ -12,8 +12,8 @@ import {
   FaSignOutAlt
 } from "react-icons/fa";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -24,7 +24,6 @@ const Sidebar = () => {
 
   const navItems = [
     { to: "/home", label: "Home", icon: <FaHome /> },
-    { to: "/dashboard", label: "Dashboard", icon: <FontAwesomeIcon icon={faChartColumn} /> },
     { to: "/transportadoras", label: "Transportadoras", icon: <FaTruck /> },
     { to: "/funcionarios", label: "Funcionários", icon: <FaUser /> },
     { to: "/estoque", label: "Estoque", icon: <FaBoxOpen /> },

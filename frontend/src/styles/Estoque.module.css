@@ -45,20 +45,22 @@
 }
 
 .actionButton {
-    background-color: #f0f0f0; /* Um cinza claro para os botões */
-    color: var(--TEXT-DARK);
     padding: 12px 35px;
-    border: 1px solid var(--BORDER_LIGHT);
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-weight: 600;
+    transition: background-color .3s ease, transform .3s ease;
     margin-top: 20px;
+    border: none;
+    background-color: var(--PRIMARY_TEAL);
+    color: white;
+   
 }
 
 .actionButton:hover {
-    background-color: #e0e0e0; /* Um pouco mais escuro no hover */
+    background-color: var(--DARK_BLUE);
+    transform: translateY(-3px);
 }
 
 /* Tabela com estilo de "cards" */
@@ -88,6 +90,7 @@
     box-shadow: var(--SHADOW_LIGHT); /* Sombra sutil para dar profundidade */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 
 .productTable tbody tr:hover {
     transform: translateY(-2px);

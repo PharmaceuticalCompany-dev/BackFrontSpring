@@ -193,7 +193,7 @@ function Funcionarios() {
                     <p>Total de funcionários: {funcionarios.length}</p>
                 </div>
                 <div className={styles.actionsContainer}>
-                    <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar Funcionário
+                    <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Funcionário
                     </button>
                 </div>
 

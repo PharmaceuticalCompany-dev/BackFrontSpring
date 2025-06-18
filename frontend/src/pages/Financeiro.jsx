@@ -67,10 +67,10 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, onMakePaymentC
                 </tbody>
             </table>
             <button className={styles.newTransactionButton} onClick={onNewTransactionClick}>
-                Nova transação
+                + Nova transação
             </button>
             <button className={styles.paymentButton} onClick={onMakePaymentClick}>
-                Realizar Pagamentos
+                $ Realizar Pagamentos
             </button>
         </div>
     );
