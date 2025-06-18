@@ -11,7 +11,13 @@ const API_URL = 'http://localhost:8090/produtos';
 function Estoque() {
     const [modal, setModal] = useState({ type: null, data: null });
     const [feedback, setFeedback] = useState({ show: false, type: '', message: '' });
-    const [produtos, setProdutos] = useState([]);
+
+
+    const [produtos, setProdutos] = useState([
+        { id: '10001000', nome: 'Product A', precoCompra: 180.00, precoVenda: 200.00, quantidadeEstoque: 10, unidade: 'Un. 10' },
+        { id: '10110110', nome: 'Product B', precoCompra: 180.00, precoVenda: 200.00, quantidadeEstoque: 10, unidade: 'Un. 10' },
+        { id: '10780198', nome: 'Product C', precoCompra: 150.00, precoVenda: 250.00, quantidadeEstoque: 10, unidade: 'Un. 10' },
+    ]);
 
     const openModal = (type, data = null) => setModal({ type, data });
     const closeModal = () => setModal({ type: null, data: null });
@@ -43,6 +49,7 @@ function Estoque() {
     };
 
     useEffect(() => {
+
         // Carrega os dados da API ao iniciar o componente
         fetchProdutosFromAPI();
     }, []);
@@ -53,6 +60,7 @@ function Estoque() {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+
                 body: JSON.stringify({
                     nome: productData.nome,
                     precoCompra: parseFloat(productData.valorCompra.replace(',', '.')),
@@ -60,17 +68,21 @@ function Estoque() {
                     quantidadeEstoque: parseInt(productData.quantidade),
                 }),
             });
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
+
             await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto adicionado com sucesso!');
+
         } catch (error) {
             console.error("Erro ao adicionar produto:", error);
             showAlert('error', `Erro ao adicionar produto: ${error.message}`);
         }
     };
+
 
     const handleEditProduct = async (updatedProductData) => {
         closeModal();
@@ -78,6 +90,7 @@ function Estoque() {
             const response = await fetch(`${API_URL}/${updatedProductData.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
+
                 body: JSON.stringify({
                     id: updatedProductData.id,
                     nome: updatedProductData.nome,
@@ -86,12 +99,15 @@ function Estoque() {
                     quantidadeEstoque: parseInt(updatedProductData.quantidadeEstoque),
                 }),
             });
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
+
             await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto editado com sucesso!');
+
         } catch (error) {
             console.error("Erro ao editar produto:", error);
             showAlert('error', `Erro ao editar produto: ${error.message}`);
@@ -104,6 +120,7 @@ function Estoque() {
             closeModal();
             return;
         }
+
         const productIdToRemove = modal.data.id;
         closeModal();
         try {
@@ -114,6 +131,7 @@ function Estoque() {
             }
             await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto removido com sucesso!');
+
         } catch (error) {
             console.error("Erro ao remover produto:", error);
             showAlert('error', `Erro ao remover produto: ${error.message}`);
@@ -124,6 +142,7 @@ function Estoque() {
         <div className={styles.estoqueContainer}>
             <header className={styles.header}>
                 <h1>Tela estoque</h1>
+
                 <div className={styles.actionsContainer}>
                     <div className={styles.headerActions}>
                         <p>Total de produtos: {produtos.length}</p>
@@ -131,12 +150,14 @@ function Estoque() {
                     <button className={styles.actionButton} onClick={() => openModal('add')}>
                         + Adicionar Produto
                     </button>
+
                 </div>
             </header>
 
             <div className={styles.tableContainer}>
                 <table className={styles.productTable}>
                     <thead>
+
                     {/* =========================================
                           ===== ÁREA CORRIGIDA: CABEÇALHO DA TABELA =====
                           =========================================
@@ -176,6 +197,7 @@ function Estoque() {
                             <td colSpan="6" style={{ textAlign: 'center' }}>Carregando produtos ou nenhum produto encontrado.</td>
                         </tr>
                     )}
+
                     </tbody>
                 </table>
             </div>
