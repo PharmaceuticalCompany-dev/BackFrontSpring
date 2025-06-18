@@ -198,13 +198,15 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: 600;
     font-size: 1em;
-    transition: background-color 0.2s;
+    transition: background-color .3s ease, transform .3s ease ;
     position: absolute;
 }
 
 .newScheduledSaleButton:hover {
     background-color: var(--DARK_BLUE);
+    transform: translateY(-3px);
 }
 
 
@@ -340,3 +342,95 @@
 .transactionsContainer{
     width: 100%;
 }}
+
+/* No final do arquivo frontend/src/styles/Funcionarios.module.css */
+
+@media (max-width: 768px) {
+    .employeeTable thead {
+        /* Esconde o cabeçalho original em telas pequenas */
+        display: none;
+    }
+
+    .employeeTable tr {
+        /* Transforma cada linha em um bloco, como um cartão */
+        display: block;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--BORDER_LIGHT);
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .employeeTable td {
+        /* Células agora são blocos de largura total */
+        display: block;
+        text-align: right; /* Alinha o valor à direita */
+        padding: 0.5rem 0;
+        border-bottom: 1px dotted var(--BORDER_LIGHT);
+    }
+
+    .employeeTable td:last-child {
+        border-bottom: none;
+    }
+
+    .employeeTable td::before {
+        /* Exibe o data-label que colocamos no JSX */
+        content: attr(data-label);
+        float: left; /* Alinha o label à esquerda */
+        font-weight: bold;
+        color: var(--TEXT-DARK);
+    }
+
+    .rowActions {
+        justify-content: flex-end; /* Alinha os botões à direita */
+        margin-top: 1rem;
+    }
+
+    /* Ajusta o header fixo para telas menores */
+    .header {
+        position: relative;
+        width: 100%;
+        margin-top: 0;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .tableContainer {
+        margin-top: 1rem;
+    }
+}
+
+/* No final do arquivo frontend/src/styles/Financeiro.module.css */
+
+@media (max-width: 1024px) {
+    .VendaMesContainer {
+        /* Transforma o container principal em uma coluna */
+        flex-direction: column;
+        align-items: center; /* Centraliza os itens */
+    }
+
+    .rightColumnContent {
+        width: 100%;
+    }
+
+    .financialMetricsGrid, .financialCard {
+        /* Garante que os cards financeiros ocupem a largura total */
+        width: 100%;
+    }
+
+    .paymentButton, .newTransactionButton, .newScheduledSaleButton {
+        /* Remove o posicionamento absoluto e ajusta para o fluxo normal */
+        position: relative;
+        width: 100%;
+        margin-top: 1rem;
+        margin-left: 0;
+    }
+
+    .transactionsContainer, .scheduledSalesContainer {
+        /* Garante que os containers de tabela ocupem a largura disponível */
+        width: 100%;
+        max-height: none; /* Remove a altura máxima para permitir rolagem da página */
+        overflow-y: visible;
+        height: auto;
+    }
+}

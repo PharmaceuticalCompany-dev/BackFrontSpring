@@ -71,13 +71,16 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* CÓDIGO CORRIGIDO */
 .sidebar.collapsed .headerText,
 .sidebar.collapsed .navText {
+  display: none; /* <<< ESSA É A LINHA MAIS IMPORTANTE DA CORREÇÃO */
+
+  /* As outras propriedades podem ser mantidas ou removidas,
+     pois display: none já resolve o problema de layout. */
   opacity: 0;
-  transform: translateX(-15px);
   pointer-events: none;
 }
-
 .toggleSection {
   display: flex;
   justify-content: flex-end;
@@ -146,6 +149,7 @@
   border-radius: 12px;
 }
 
+/* Em frontend/src/styles/Sidebar.module.css */
 .navIcon {
   font-size: 1.6rem;
   display: flex;
@@ -153,6 +157,7 @@
   justify-content: center;
   margin-right: 20px;
   transition: margin 0.3s ease;
+  flex-shrink: 0; /* <<< ADICIONE ESSA LINHA */
 }
 
 .sidebar.collapsed .navIcon {

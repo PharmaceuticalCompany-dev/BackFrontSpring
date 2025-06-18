@@ -69,7 +69,7 @@ function Estoque() {
             </header>
 
             <div className={styles.actionsContainer}>
-                <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar</button>
+                <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Produto</button>
             </div>
 
             <div className={styles.tableContainer}>

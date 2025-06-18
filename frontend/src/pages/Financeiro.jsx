@@ -126,7 +126,7 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
                 className={styles.newScheduledSaleButton}
                 onClick={onNewScheduledSaleClick}
             >
-                Nova venda programada
+                + Nova venda programada
             </button>
         </div>
     );
