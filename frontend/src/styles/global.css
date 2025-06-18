@@ -62,4 +62,46 @@ body {
     --TABLE_ROW_EVEN_BG: #f9f9f9;
 }
 
+/* =============================================== */
+/* === ESTILOS PARA TELAS GRANDES (4K / TVS) === */
+/* =============================================== */
+
+/* Aplica estes estilos quando a tela tiver 1920px de largura ou mais */
+@media (min-width: 1920px) {
+
+    /* Aumenta o tamanho da fonte base.
+       Como você usa a unidade 'rem' em vários lugares,
+       muitos elementos crescerão proporcionalmente. */
+    :root {
+        font-size: 18px; /* O original é 14px, sinta-se à vontade para testar valores como 16px, 18px ou 20px */
+    }
+
+    /* Aumenta a largura máxima dos contêineres principais para usar mais espaço */
+    .dashboardContainer, .content {
+        max-width: 1800px; /* Define uma largura máxima maior */
+        margin: 0 auto;     /* Mantém centralizado */
+    }
+
+    /* Ajusta o grid de cards para ter mais colunas em telas maiores */
+    .cardsGrid {
+        grid-template-columns: repeat(4, 1fr); /* Exibe 4 cards por linha */
+    }
+}
+
+/* Opcional: Um breakpoint ainda maior para telas gigantescas */
+@media (min-width: 2560px) {
+    :root {
+        font-size: 22px; /* Aumenta ainda mais a fonte base */
+    }
+
+    .dashboardContainer, .content {
+        max-width: 2400px;
+    }
+
+    /* Aumenta o espaçamento dos cards para preencher melhor a tela */
+    .cardsGrid {
+        gap: 32px; /* Aumenta o espaço entre os cards */
+    }
+}
+
   

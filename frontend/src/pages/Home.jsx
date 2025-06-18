@@ -10,7 +10,7 @@ export default function Home() {
     }, []);
 
     const dashboardData = [
-        { title: 'Total de Funcionários', value: '120' },
+        { title: 'Total de Funcionários', value: '23' },
         { title: 'Pedidos em Trânsito', value: '45' },
         { title: 'Estoque Atual', value: '1.250 unidades' },
         { title: 'Saldo Atual', value: 'R$ 150.000' }

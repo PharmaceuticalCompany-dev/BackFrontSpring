@@ -12,6 +12,7 @@ function Estoque() {
     const [modal, setModal] = useState({ type: null, data: null });
     const [feedback, setFeedback] = useState({ show: false, type: '', message: '' });
 
+
     const [produtos, setProdutos] = useState([
         { id: '10001000', nome: 'Product A', precoCompra: 180.00, precoVenda: 200.00, quantidadeEstoque: 10, unidade: 'Un. 10' },
         { id: '10110110', nome: 'Product B', precoCompra: 180.00, precoVenda: 200.00, quantidadeEstoque: 10, unidade: 'Un. 10' },
@@ -48,18 +49,18 @@ function Estoque() {
     };
 
     useEffect(() => {
+
+        // Carrega os dados da API ao iniciar o componente
         fetchProdutosFromAPI();
     }, []);
 
     const handleAddProduct = async (productData) => {
         closeModal();
-
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
+
                 body: JSON.stringify({
                     nome: productData.nome,
                     precoCompra: parseFloat(productData.valorCompra.replace(',', '.')),
@@ -73,7 +74,7 @@ function Estoque() {
                 throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
 
-            await fetchProdutosFromAPI();
+            await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto adicionado com sucesso!');
 
         } catch (error) {
@@ -82,15 +83,14 @@ function Estoque() {
         }
     };
 
+
     const handleEditProduct = async (updatedProductData) => {
         closeModal();
-
         try {
             const response = await fetch(`${API_URL}/${updatedProductData.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
+
                 body: JSON.stringify({
                     id: updatedProductData.id,
                     nome: updatedProductData.nome,
@@ -105,7 +105,7 @@ function Estoque() {
                 throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
             }
 
-            await fetchProdutosFromAPI();
+            await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto editado com sucesso!');
 
         } catch (error) {
@@ -123,25 +123,13 @@ function Estoque() {
 
         const productIdToRemove = modal.data.id;
         closeModal();
-
         try {
-            const response = await fetch(`${API_URL}/${productIdToRemove}`, {
-                method: 'DELETE',
-            });
-
+            const response = await fetch(`${API_URL}/${productIdToRemove}`, { method: 'DELETE' });
             if (!response.ok) {
                 const errorText = await response.text();
-                let errorMessage = `HTTP error! status: ${response.status}`;
-                try {
-                    const errorJson = JSON.parse(errorText);
-                    errorMessage = errorJson.message || errorMessage;
-                } catch (e) {
-                    errorMessage = errorText || errorMessage;
-                }
-                throw new Error(errorMessage);
+                throw new Error(errorText || `HTTP error! status: ${response.status}`);
             }
-
-            await fetchProdutosFromAPI();
+            await fetchProdutosFromAPI(); // Recarrega a lista da API
             showAlert('success', 'Produto removido com sucesso!');
 
         } catch (error) {
@@ -154,49 +142,62 @@ function Estoque() {
         <div className={styles.estoqueContainer}>
             <header className={styles.header}>
                 <h1>Tela estoque</h1>
-                <div className={styles.headerActions}>
-                    <p>Total no estoque: {produtos.reduce((acc, p) => acc + (parseInt(p.unidade.split(' ')[1]) || 0), 0)}</p>
+
+                <div className={styles.actionsContainer}>
+                    <div className={styles.headerActions}>
+                        <p>Total de produtos: {produtos.length}</p>
+                    </div>
+                    <button className={styles.actionButton} onClick={() => openModal('add')}>
+                        + Adicionar Produto
+                    </button>
+
                 </div>
             </header>
-
-            <div className={styles.actionsContainer}>
-                <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Produto</button>
-            </div>
 
             <div className={styles.tableContainer}>
                 <table className={styles.productTable}>
                     <thead>
-                        <tr>
-                            <th>Nome do Produto</th>
-                            <th>ID do Produto</th>
-                            <th>Valor de Compra</th>
-                            <th>Valor de Venda</th>
-                            <th>Unidades</th>
-                            <th>Ações</th>
-                        </tr>
+
+                    {/* =========================================
+                          ===== ÁREA CORRIGIDA: CABEÇALHO DA TABELA =====
+                          =========================================
+                        */}
+                    <tr>
+                        <th>ID do Produto</th>
+                        <th>Nome do Produto</th>
+                        <th>Valor de Compra</th>
+                        <th>Valor de Venda</th>
+                        <th>Unidades</th>
+                        <th>Ações</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {produtos.length > 0 ? (
-                            produtos.map((produto) => (
-                                <tr key={produto.id}>
-                                    <td>{produto.nome}</td>
-                                    <td>{produto.id}</td>
-                                    <td>R${produto.precoCompra.toFixed(2).replace('.', ',')}</td>
-                                    <td>R${produto.precoVenda.toFixed(2).replace('.', ',')}</td>
-                                    <td>{produto.unidade}</td>
-                                    <td>
-                                        <div className={styles.rowActions}>
-                                            <button onClick={() => openModal('edit', produto)} className={styles.editRowButton}>Editar</button>
-                                            <button onClick={() => openModal('remove', produto)} className={styles.removeRowButton}>Remover</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="6" style={{ textAlign: 'center' }}>Carregando produtos ou nenhum produto encontrado.</td>
+                    {produtos.length > 0 ? (
+                        produtos.map((produto) => (
+                            /* =======================================
+                             ===== ÁREA CORRIGIDA: LINHA DA TABELA =====
+                             =======================================
+                            */
+                            <tr key={produto.id}>
+                                <td>{produto.id}</td>
+                                <td>{produto.nome}</td>
+                                <td>R${produto.precoCompra.toFixed(2).replace('.', ',')}</td>
+                                <td>R${produto.precoVenda.toFixed(2).replace('.', ',')}</td>
+                                <td>{produto.unidade}</td>
+                                <td>
+                                    <div className={styles.rowActions}>
+                                        <button onClick={() => openModal('edit', produto)} className={styles.editRowButton}>Editar</button>
+                                        <button onClick={() => openModal('remove', produto)} className={styles.removeRowButton}>Remover</button>
+                                    </div>
+                                </td>
                             </tr>
-                        )}
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" style={{ textAlign: 'center' }}>Carregando produtos ou nenhum produto encontrado.</td>
+                        </tr>
+                    )}
+
                     </tbody>
                 </table>
             </div>
