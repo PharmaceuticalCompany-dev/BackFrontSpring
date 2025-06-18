@@ -15,6 +15,9 @@
     padding: 1.5rem 2rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-radius: 10px;
+    position: fixed;
+    width: 78%;
+    margin-top: 20px;
 }
 
 .header h1 {
@@ -60,6 +63,7 @@
 
 .tableContainer {
     width: 100%;
+    margin-top: 100px;
 }
 
 .employeeTable {
