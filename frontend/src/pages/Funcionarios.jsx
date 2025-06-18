@@ -152,14 +152,14 @@ function Funcionarios() {
                         <tbody>
                         {funcionarios.map(f => (
                             <tr key={f.id}>
-                                <td>{f.id}</td>
-                                <td>{f.nome}</td>
-                                <td>{f.genero}</td>
-                                <td>{formatDate(f.dataNascimento)}</td>
-                                <td>{f.cargo}</td>
-                                <td>{formatCurrency(f.salario)}</td>
-                                <td>{formatCurrency(f.salarioLiquido)}</td>
-                                <td>
+                                <td data-label="ID">{f.id}</td>
+                                <td data-label="Nome">{f.nome}</td>
+                                <td data-label="Genero">{f.genero}</td>
+                                <td data-label="Data de Nascimento">{formatDate(f.dataNascimento)}</td>
+                                <td data-label="Cargo">{f.cargo}</td>
+                                <td data-label="Salário Bruto">{formatCurrency(f.salario)}</td>
+                                <td data-label="Saláio Liquido">{formatCurrency(f.salarioLiquido)}</td>
+                                <td data-label="Ações">
                                     <div className={styles.rowActions}>
                                         <button
                                             onClick={() => openModal('edit', f)}
