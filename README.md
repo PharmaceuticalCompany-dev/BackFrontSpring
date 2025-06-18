@@ -18,19 +18,24 @@ Siga estas etapas para configurar e executar o projeto:
 # Navegue até o diretório backend no seu terminal:
 cd backend
 
+```bash
 # Suba os serviços de backend usando o Docker Compose em modo detached (segundo plano):
 docker compose up -d
 
+```bash
 # Assim que os serviços estiverem rodando, volte para a raiz do projeto:
 cd ..
 
 ## Rodar o Front-end
 
+```bash
 # Navegue até o diretório frontend:
 cd frontend
 
+```bash
 # Instale as dependências Node.js necessárias:
 npm i
 
+```bash
 # Inicie o servidor de desenvolvimento:
 npm run dev
