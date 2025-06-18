@@ -9,7 +9,6 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // --- NOMES ATUALIZADOS CONFORME SOLICITADO ---
     const [FeedbackModalState, setFeedbackModalState] = useState({
         isOpen: false,
         variant: '',
@@ -65,14 +64,14 @@ function Login() {
                     <form onSubmit={handleSubmit}>
                         <FormField
                             id="username"
-                            label="Nome de usuário" // O texto que vai animar
+                            label="Nome de usuário"
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <FormField
                             id="password"
-                            label="Senha" // O texto que vai animar
+                            label="Senha"
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

@@ -1,6 +1,4 @@
-/* src/styles/Cadastro.module.css */
 
-/* --- ESTRUTURA PRINCIPAL (ESPELHADA DO LOGIN) --- */
 .cadastroPageContainer {
   display: flex;
   flex-direction: column;
@@ -17,7 +15,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--DARK_BLUE);
-  padding: 2rem 1rem; /* Adicionado padding vertical */
+  padding: 2rem 1rem;
 }
 
 .cadastroBox {
@@ -26,13 +24,12 @@
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   width: 100%;
-  max-width: 500px; /* Um pouco maior para caber mais campos e a lista */
+  max-width: 500px;
   text-align: center;
 }
 
-/* --- ELEMENTOS DO FORMULÁRIO --- */
 .cadastroTitle {
-  margin-top: 1.5rem; /* Espaço entre a lista e o título */
+  margin-top: 1.5rem;
   margin-bottom: 2rem;
   color: var(--PRIMARY_TEAL);
   font-family: 'Montserrat', sans-serif;
@@ -59,7 +56,6 @@
   transform: translateY(-3px);
 }
 
-/* --- ESTILOS PARA O SELECT (PARA PARECER COM O FORMFIELD) --- */
 .formGroup {
   position: relative;
   margin-bottom: 1.5rem;
@@ -85,10 +81,9 @@
 
 .selectInput:focus {
   outline: none;
-  border-color: var(--PRIMARY-TEAL);
+  border-color: var(--PRIMARY_TEAL);
 }
 
-/* --- LINKS (IGUAL AO LOGIN) --- */
 .linkText {
   margin-top: 2rem;
   color: var(--TEXT-MUTED);
@@ -116,7 +111,6 @@
   transform: translateY(-3px);
 }
 
-/* --- RESPONSIVIDADE (IGUAL AO LOGIN) --- */
 @media (min-width: 768px) {
   .cadastroPageContainer {
     flex-direction: row;
@@ -141,7 +135,6 @@
   }
 }
 
-/* --- ESTILOS ADICIONADOS PARA A LISTA DE FUNCIONÁRIOS --- */
 .listaContainer {
   margin-bottom: 1.5rem;
   border: 1px solid var(--BORDER_LIGHT);
@@ -159,8 +152,8 @@
 }
 
 .funcionariosList {
-  max-height: 150px; /* Altura máxima para a lista */
-  overflow-y: auto; /* Adiciona scroll se a lista for longa */
+  max-height: 150px; /
+  overflow-y: auto;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.9rem;

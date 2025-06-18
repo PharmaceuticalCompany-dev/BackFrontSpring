@@ -4,8 +4,6 @@ import { FaSearch } from 'react-icons/fa';
 import AddTransportadoraModal from './AddTransportadoraModal';
 import EditTransportadoraModal from './EditTransportadoraModal';
 
-// Helper function to capitalize the first letter and make the rest lowercase
-// This is useful for consistent display of status and region.
 const capitalize = (s) => {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -19,8 +17,7 @@ function Transportadoras() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // API URL for transportadoras (adjust as per your backend)
-    const API_URL = 'http://localhost:8090/transportadoras'; // Example, adjust port/endpoint if needed
+    const API_URL = 'http://localhost:8090/transportadoras';
 
     useEffect(() => {
         document.title = "Transportadoras - Pharmacom";
@@ -30,7 +27,6 @@ function Transportadoras() {
     const openModal = useCallback((type, data = null) => setModal({ type, data }), []);
     const closeModal = useCallback(() => setModal({ type: null, data: null }), []);
 
-    // Function to fetch transportadoras from the backend
     const fetchTransportadoras = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -42,15 +38,10 @@ function Transportadoras() {
             }
             const data = await response.json();
 
-            // Format data for display: capitalize status and region, format date
             const formattedData = data.map(t => ({
                 ...t,
-                // Prioritize 'statusParceria', fallback to 'status' if needed, then capitalize
                 statusParceria: capitalize(t.statusParceria || t.status || ''),
                 regiao: capitalize(t.regiao || ''),
-                // atualizacao is no longer needed for display, but keeping the line commented out
-                // if you ever need to quickly bring it back or for backend debugging.
-                // atualizacao: t.atualizacao ? new Date(t.atualizacao).toLocaleDateString('pt-BR') : 'N/A'
             }));
             setTransportadoras(formattedData);
         } catch (err) {
@@ -59,30 +50,24 @@ function Transportadoras() {
         } finally {
             setLoading(false);
         }
-    }, [API_URL]); // Dependency on API_URL
+    }, [API_URL]);
 
-    // Fetch data when the component mounts
     useEffect(() => {
         fetchTransportadoras();
-    }, [fetchTransportadoras]); // Dependency on fetchTransportadoras
+    }, [fetchTransportadoras]);
 
-    // Memoized filtered list of transportadoras
     const filteredTransportadoras = useMemo(() => {
         return transportadoras.filter(t => {
             const matchesSearch = t.nome.toLowerCase().includes(searchTerm.toLowerCase());
-            // Compare the capitalized region filter ("Sudeste") with the capitalized transportadora region
             const matchesRegion = regionFilter === 'Todas' || t.regiao === regionFilter;
             return matchesSearch && matchesRegion;
         });
-    }, [transportadoras, searchTerm, regionFilter]); // Dependencies for memoization
+    }, [transportadoras, searchTerm, regionFilter]);
 
-    // Function to add a new transportadora
     const handleAddTransportadora = useCallback(async (novaTransportadora) => {
         try {
-            // Ensure status and region are uppercase for the backend enum/string fields
             const transportadoraToSend = {
                 nome: novaTransportadora.nome,
-                // Ensure the value matches backend enum: "ATIVO" or "INATIVO"
                 statusParceria: novaTransportadora.statusParceria.toUpperCase(),
                 regiao: novaTransportadora.regiao.toUpperCase(),
             };
@@ -108,21 +93,16 @@ function Transportadoras() {
             console.error("Erro ao adicionar transportadora:", err);
             alert(`Erro ao adicionar transportadora: ${err.message}. Verifique os dados e a conexão com o servidor.`);
         }
-    }, [API_URL, fetchTransportadoras, closeModal]); // Dependencies for callback
+    }, [API_URL, fetchTransportadoras, closeModal]);
 
-    // Function to edit an existing transportadora
     const handleEditTransportadora = useCallback(async (updatedTransportadora) => {
         try {
-            // Ensure status and region are uppercase for the backend enum/string fields
             const transportadoraToSend = {
                 id: updatedTransportadora.id,
                 nome: updatedTransportadora.nome,
-                // Ensure the value matches backend enum: "ATIVO" or "INATIVO"
                 statusParceria: updatedTransportadora.statusParceria.toUpperCase(),
                 regiao: updatedTransportadora.regiao.toUpperCase(),
-                // Include other fields the backend might expect for PUT
                 entregas: updatedTransportadora.entregas,
-                // atualizacao is not needed for display, but might be sent to backend if it's part of the entity
                 atualizacao: updatedTransportadora.atualizacao
             };
 
@@ -141,18 +121,17 @@ function Transportadoras() {
             }
 
             alert('Transportadora editada com sucesso!');
-            fetchTransportadoras(); // Reload list after edit
+            fetchTransportadoras();
             closeModal();
         } catch (err) {
             console.error("Erro ao editar transportadora:", err);
             alert(`Erro ao editar transportadora: ${err.message}. Verifique os dados e a conexão com o servidor.`);
         }
-    }, [API_URL, fetchTransportadoras, closeModal]); // Dependencies for callback
+    }, [API_URL, fetchTransportadoras, closeModal]);
 
-    // Function to remove a transportadora directly (without a confirmation modal)
     const handleRemoveTransportadora = useCallback(async (transportadoraId, transportadoraNome) => {
         if (!window.confirm(`Tem certeza que deseja remover a transportadora ${transportadoraNome}?`)) {
-            return; // If user cancels, do nothing
+            return;
         }
 
         try {
@@ -167,12 +146,12 @@ function Transportadoras() {
             }
 
             alert('Transportadora removida com sucesso!');
-            fetchTransportadoras(); // Reload list after removal
+            fetchTransportadoras();
         } catch (err) {
             console.error("Erro ao remover transportadora:", err);
             alert(`Erro ao remover transportadora: ${err.message}. Verifique a conexão com o servidor.`);
         }
-    }, [API_URL, fetchTransportadoras]); // Dependencies for callback
+    }, [API_URL, fetchTransportadoras]);
 
     return (
         <div className={styles.pageContainer}>
@@ -222,7 +201,6 @@ function Transportadoras() {
                                 <th>Nome da transportadora</th>
                                 <th>Status da parceria</th>
                                 <th>Região</th>
-                                {/* REMOVIDO: <th>Última atualização</th> */}
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -236,7 +214,6 @@ function Transportadoras() {
                                         </span>
                                     </td>
                                     <td>{t.regiao}</td>
-                                    {/* REMOVIDO: <td>{t.atualizacao}</td> */}
                                     <td>
                                         <div className={styles.rowActions}>
                                             <button onClick={() => openModal('edit', t)} className={styles.editRowButton}>
@@ -259,7 +236,6 @@ function Transportadoras() {
                 )}
             </div>
 
-            {/* Conditional rendering of modals */}
             {modal.type === 'add' && <AddTransportadoraModal onClose={closeModal} onSave={handleAddTransportadora} />}
             {modal.type === 'edit' && <EditTransportadoraModal transportadoraToEdit={modal.data} onClose={closeModal} onSave={handleEditTransportadora} />}
         </div>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../styles/Funcionarios.module.css';
 
-// Importe apenas os modais de adicionar e editar, se ainda for usá-los
 import RegisterFuncionarioModal from './RegisterFuncionarioModal';
 import EditFuncionarioModal from './EditFuncionarioModal';
-// import ConfirmarRemocaoModal from './ConfirmarRemocaoModal'; // REMOVIDO: Não precisamos mais do modal de confirmação
+
 
 function Funcionarios() {
     const [modal, setModal] = useState({ type: null, data: null });
@@ -101,7 +100,6 @@ function Funcionarios() {
 
     const handleEditFuncionario = async (updatedFuncionario) => {
         try {
-            // Inclui todos os campos que o backend espera para o PUT
             const funcionarioToSend = {
                 id: updatedFuncionario.id,
                 nome: updatedFuncionario.nome,
@@ -140,11 +138,9 @@ function Funcionarios() {
         }
     };
 
-    // FUNÇÃO DE REMOÇÃO DIRETA
     const handleRemoveFuncionario = async (funcionarioId, funcionarioNome) => {
-        // Adiciona uma confirmação simples com alert() antes de remover
         if (!window.confirm(`Tem certeza que deseja remover o funcionário ${funcionarioNome}?`)) {
-            return; // Se o usuário cancelar, não faz nada
+            return;
         }
 
         try {
@@ -159,8 +155,6 @@ function Funcionarios() {
             }
 
             alert('Funcionário removido com sucesso!');
-            fetchFuncionarios(); // Atualiza a lista após a remoção
-            // Não precisa fechar modal porque não há modal de remoção
         } catch (err) {
             console.error("Erro ao remover funcionário:", err);
             alert(`Erro ao remover funcionário: ${err.message}. Verifique a conexão com o servidor.`);
@@ -235,7 +229,7 @@ function Funcionarios() {
                                     <td>
                                         <div className={styles.rowActions}>
                                             <button onClick={() => openModal('edit', funcionario)} className={styles.editRowButton}>Editar</button>
-                                            {/* CHAMA A FUNÇÃO DIRETA DE REMOÇÃO */}
+
                                             <button
                                                 onClick={() => handleRemoveFuncionario(funcionario.id, funcionario.nome)}
                                                 className={styles.removeRowButton}
@@ -251,12 +245,9 @@ function Funcionarios() {
                 )}
             </div>
 
-            {/* Renderização condicional dos modais para funcionários. */}
             {modal.type === 'add' && <RegisterFuncionarioModal onClose={closeModal} onSave={handleAddFuncionario} />}
             {modal.type === 'edit' && <EditFuncionarioModal funcionarioToEdit={modal.data} onClose={closeModal} onSave={handleEditFuncionario} />}
-            {/* REMOVIDO: Não renderiza mais o modal de remoção */}
-            {/* {modal.type === 'remove' && <ConfirmarRemocaoModal item={modal.data} onClose={closeModal} onConfirm={handleRemoveFuncionario} />} */}
-        </div>
+            </div>
     );
 }
 

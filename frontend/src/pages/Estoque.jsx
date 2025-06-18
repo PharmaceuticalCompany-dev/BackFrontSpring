@@ -1,23 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Using the specific modal styles for consistent appearance (still needed for Register/Edit Modals)
-import modalStyles from '../styles/RegisterProductModal.module.css'; 
-import styles from '../styles/Estoque.module.css'; // General Estoque styles
+import styles from '../styles/Estoque.module.css';
 import RegisterProductModal from './RegisterProductModal'; 
 import EditProductModal from './EditProductModal';
 import ConfirmRemoveModal from './ConfirmRemoveModal';
 
-// --- Estoque Main Component ---
 function Estoque() {
     const navigate = useNavigate();
     const [modal, setModal] = useState({ type: null, data: null });
     const [produtos, setProdutos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    // Removed: const [showBuyProductModal, setShowBuyProductModal] = useState(false);
 
     const API_URL = 'http://localhost:8090/produtos';
-    // Removed: const COMPRAS_API_URL = 'http://localhost:8090/compras';
 
     useEffect(() => {
         document.title = "Estoque - Pharmacom";
@@ -157,8 +152,6 @@ function Estoque() {
         return acc + (p.quantidadeEstoque || 0);
     }, 0);
 
-    // Removed: handleComprarProdutosClick and handleCloseBuyProductModal
-    // Removed: handleBuyProduct
 
     return (
         <div className={styles.estoqueContainer}>
@@ -169,11 +162,10 @@ function Estoque() {
                 </div>
                 <div className={styles.actionsContainer}>
                 <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Produto</button>
-                {/* Removed: <button className={styles.actionButton} onClick={handleComprarProdutosClick}>Comprar Produtos</button> */}
+
             </div>
             </header>
 
-            
 
             <div className={styles.tableContainer}>
                 {loading ? (
@@ -215,13 +207,10 @@ function Estoque() {
                 )}
             </div>
 
-            {/* Modals are rendered conditionally based on the 'modal' state */}
             {modal.type === 'add' && <RegisterProductModal onClose={closeModal} onSave={handleAddProduct} />}
             {modal.type === 'edit' && <EditProductModal productToEdit={modal.data} onClose={closeModal} onSave={handleEditProduct} />}
             {modal.type === 'remove' && <ConfirmRemoveModal product={modal.data} onClose={closeModal} onConfirm={handleRemoveProduct} />}
 
-            {/* Removed: Conditionally render the BuyProductModal */}
-            {/* Removed: {showBuyProductModal && ( <BuyProductModal ... /> )} */}
         </div>
     );
 }

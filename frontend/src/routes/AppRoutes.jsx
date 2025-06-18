@@ -7,15 +7,13 @@ import Financeiro from '../pages/Financeiro';
 import Estoque from '../pages/Estoque'; 
 import Funcionarios from '../pages/Funcionarios'; 
 
-import DashboardLayout from '../layouts/DashboardLayout'; // <- O layout que contém a SideBar
+import DashboardLayout from '../layouts/DashboardLayout';
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Rotas que NÃO TÊM a sidebar */}
       <Route path="/" element={<Login />} />
 
-      {/* Agrupa todas as rotas que DEVEM TER a sidebar */}
       <Route element={<DashboardLayout />}>
         <Route path="/home" element={<Home />} />
         <Route path="/transportadoras" element={<Transportadoras />} />

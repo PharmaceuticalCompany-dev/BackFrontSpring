@@ -1,23 +1,20 @@
-/* src/styles/Estoque.module.css */
 
 .estoqueContainer {
-    /* background-color: var(--WHITE); */
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Cabeçalho: Título e Total */
 .header {
-    position: sticky; /* OU use 'fixed' se quiser fixo absoluto */
+    position: sticky;
     top: 0;
-    z-index: 100; /* Garante que fique acima dos outros */
-    background-color: white; /* Pode usar um blur também */
-    backdrop-filter: blur(10px); /* Opcional: efeito vidro fosco */
+    z-index: 100;
+    background-color: white;
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil ao rolar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-radius: 10px;
 }
 
@@ -37,7 +34,6 @@
     color: var(--TEXT-MUTED);
 }
 
-/* Botões de Ação: Adicionar, Remover, Editar */
 .actionsContainer {
     display: flex;
     gap: 1rem;
@@ -63,31 +59,30 @@
     transform: translateY(-3px);
 }
 
-/* Tabela com estilo de "cards" */
 .tableContainer {
     /* background-color: var(--WHITE); */
 }
 
 .productTable {
     width: 100%;
-    border-collapse: separate; /* Essencial para o espaçamento funcionar com border-radius */
-    border-spacing: 0 1rem;  /* Cria o espaço vertical entre as linhas */
+    border-collapse: separate;
+    border-spacing: 0 1rem;
 }
 
 .productTable th {
     text-align: left;
-    padding: 0 1rem 1rem 1rem; /* Espaçamento abaixo do cabeçalho */
+    padding: 0 1rem 1rem 1rem;
     color: var(--TEXT-MUTED);
     font-weight: 500;
     font-size: 0.9rem;
-    text-transform: none; /* Mantém o case original como no Figma */
+    text-transform: none;
     border: none;
 }
 
 .productTable tbody tr {
-    background-color: #f9f9f9; /* Fundo cinza bem claro para cada "card" de linha */
+    background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: var(--SHADOW_LIGHT); /* Sombra sutil para dar profundidade */
+    box-shadow: var(--SHADOW_LIGHT);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -102,10 +97,9 @@
     vertical-align: middle;
     color: var(--TEXT-DARK);
     font-weight: 500;
-    border: none; /* Removemos a borda padrão do td */
+    border: none;
 }
 
-/* Arredonda a primeira e última célula de cada linha */
 .productTable td:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -116,7 +110,6 @@
     border-bottom-right-radius: 10px;
 }
 
-/* --- ADIÇÃO DOS ESTILOS PARA OS BOTÕES NA TABELA --- */
 
 .rowActions {
     display: flex;
@@ -141,9 +134,9 @@
 }
 
 .editRowButton {
-    background-color: var(--GREEN_ADD); /* Padrão verde */
+    background-color: var(--GREEN_ADD);
 }
 
 .removeRowButton {
-    background-color: var(--RED_DELETE); /* Padrão vermelho */
+    background-color: var(--RED_DELETE);
 }

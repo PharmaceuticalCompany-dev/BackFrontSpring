@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from '../styles/RevenueSection.module.css'; // Estilos específicos da RevenueSection
-import dashboardStyles from '../styles/Dashboard.module.css'; // Reutiliza estilos gerais do dashboard, incluindo a sidebar
+import styles from '../styles/RevenueSection.module.css';
+import dashboardStyles from '../styles/Dashboard.module.css';
 
-// Dados de exemplo (você substituirá isso por dados reais de API)
 const mockSales = [
     { id: 'S001', product: 'Produto A', quantity: 2, unitPrice: 50.00, total: 100.00, date: '2023-10-26' },
     { id: 'S002', product: 'Produto B', quantity: 1, unitPrice: 120.00, total: 120.00, date: '2023-10-25' },
@@ -16,19 +15,14 @@ const mockPurchases = [
 ];
 
 const RevenueSection = () => {
-    // Calcular receita total das vendas
     const totalRevenue = mockSales.reduce((sum, sale) => sum + sale.total, 0);
 
-    // Calcular custo total das compras
     const totalCost = mockPurchases.reduce((sum, purchase) => sum + purchase.total, 0);
 
-    // Calcular lucro total
     const totalProfit = totalRevenue - totalCost;
 
     return (
-        // O container principal agora terá a estrutura de flexbox para a sidebar e o conteúdo
-        <div className={dashboardStyles.dashboardContainer}> 
-            {/* Sidebar (Barra de Navegação Lateral) - Integrada aqui */}
+        <div className={dashboardStyles.dashboardContainer}>
             <div className={dashboardStyles.sidebar}>
                 <h2 className={dashboardStyles.sidebarHeader}>Farmácia SENAI</h2>
                 <nav className={dashboardStyles.sidebarNav}>
@@ -38,7 +32,6 @@ const RevenueSection = () => {
                         <li><a href="#" className={dashboardStyles.navLink}>Cadastro de Remédios</a></li>
                         <li><a href="#" className={dashboardStyles.navLink}>Estoque</a></li>
                         <li><a href="#" className={dashboardStyles.navLink}>Fornecedores</a></li>
-                        {/* Marca 'Receitas/Vendas' como ativo se esta for a página de Receitas */}
                         <li>
                             <a href="#" className={`${dashboardStyles.navLink} ${dashboardStyles.activeNavLink}`}>
                                 Receitas/Vendas
@@ -50,9 +43,7 @@ const RevenueSection = () => {
                 </nav>
             </div>
 
-            {/* Main Content Area - Onde o conteúdo da RevenueSection realmente fica */}
             <div className={dashboardStyles.mainContent}>
-                {/* Header Bar para a seção de Receitas/Vendas */}
                 <div className={dashboardStyles.headerBar}>
                     <h1>Receitas / Vendas</h1>
                     <div className={dashboardStyles.topBarButtons}>
@@ -61,9 +52,7 @@ const RevenueSection = () => {
                     </div>
                 </div>
 
-                {/* Conteúdo específico da RevenueSection */}
-                <div className={styles.revenueContentArea}> {/* Nova div para o conteúdo da receita */}
-                    {/* Cards de Métricas de Receita */}
+                <div className={styles.revenueContentArea}>
                     <div className={styles.revenueMetricsGrid}>
                         <div className={dashboardStyles.dashboardCard}>
                             <h4 className={dashboardStyles.cardTitle}>Receita Total</h4>
@@ -81,7 +70,6 @@ const RevenueSection = () => {
                         </div>
                     </div>
 
-                    {/* Seção de Vendas Recentes */}
                     <div className={`${dashboardStyles.recentActivity} ${styles.revenueActivity}`}>
                         <div className={dashboardStyles.sectionHeaderWithControls}>
                             <h3 className={dashboardStyles.sectionTitleText}>Vendas Recentes</h3>
@@ -120,7 +108,6 @@ const RevenueSection = () => {
                         )}
                     </div>
 
-                    {/* Seção de Compras Recentes */}
                     <div className={`${dashboardStyles.recentActivity} ${styles.revenueActivity}`}>
                         <div className={dashboardStyles.sectionHeaderWithControls}>
                             <h3 className={dashboardStyles.sectionTitleText}>Compras Recentes</h3>

@@ -1,18 +1,15 @@
-/* src/styles/FinancialSummary.module.css */
 
-/* Container principal que alinha os cards em uma linha (row) */
 .financialMetricsRow {
     display: flex;
-    flex-direction: row; /* Alinha os itens lado a lado */
-    flex-wrap: wrap;     /* Permite que os cards quebrem para a próxima linha em telas menores */
-    gap: 24px;           /* Espaçamento entre os cards */
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
     width: 100%;
 }
 
-/* Estilo para cada card financeiro individual */
 .financialCard {
-    flex: 1; /* Permite que os cards cresçam e ocupem o espaço disponível */
-    min-width: 220px; /* Largura mínima para cada card antes de quebrar a linha */
+    flex: 1;
+    min-width: 220px;
     background-color: #ffffff;
     padding: 24px;
     border-radius: 12px;
@@ -27,14 +24,14 @@
 }
 
 .cardTitle {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     color: #6c757d;
     margin-bottom: 12px;
     font-weight: 500;
 }
 
 .cardValue {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem;
     font-weight: 700;
     color: #343a40;
 }

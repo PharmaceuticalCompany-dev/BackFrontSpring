@@ -2,9 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Financeiro.module.css';
 
-// ---
-// PageHeader Component
-// ---
 const PageHeader = ({ title }) => {
     return (
         <div className={styles.pageHeader}>
@@ -13,9 +10,7 @@ const PageHeader = ({ title }) => {
     );
 };
 
-// ---
-// FinancialCard Component
-// ---
+
 const FinancialCard = ({ title, value }) => {
     return (
         <div className={styles.financialCard}>
@@ -25,9 +20,6 @@ const FinancialCard = ({ title, value }) => {
     );
 };
 
-// ---
-// TransactionsTable Component
-// ---
 const TransactionsTable = ({ transactions, onNewTransactionClick, onMakePaymentClick, loading, error }) => {
     return (
         <div className={styles.transactionsContainer}>
@@ -76,9 +68,6 @@ const TransactionsTable = ({ transactions, onNewTransactionClick, onMakePaymentC
     );
 };
 
-// ---
-// ScheduledSalesTable Component
-// ---
 const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, onDeleteSale }) => {
     return (
         <div className={styles.scheduledSalesContainer}>
@@ -143,9 +132,6 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
     );
 };
 
-// ---
-// NewScheduledSaleModal Component
-// ---
 const NewScheduledSaleModal = ({ onClose, onSave }) => {
     const [dataVenda, setDataVenda] = useState('');
     const [produtoId, setProdutoId] = useState('');
@@ -272,9 +258,6 @@ const NewScheduledSaleModal = ({ onClose, onSave }) => {
     );
 };
 
-// ---
-// NewTransactionModal Component
-// ---
 const NewTransactionModal = ({ onClose, onSave }) => {
     const [tipo, setTipo] = useState('');
     const [valor, setValor] = useState('');
@@ -341,9 +324,6 @@ const NewTransactionModal = ({ onClose, onSave }) => {
     );
 };
 
-// ---
-// Financeiro Main Component
-// ---
 export default function Financeiro() {
     useEffect(() => {
         document.title = "Financeiro - Pharmacom";
@@ -365,9 +345,7 @@ export default function Financeiro() {
     const [rendimentoAnual, setRendimentoAnual] = useState('0,00');
     const [caixaTotal, setCaixaTotal] = useState('0,00');
 
-    // ---
-    // Fetch Financial Metrics
-    // ---
+
     const fetchFinancialMetrics = useCallback(async () => {
         try {
             const [
@@ -436,9 +414,6 @@ export default function Financeiro() {
         }
     }, []);
 
-    // ---
-    // Fetch Scheduled Sales
-    // ---
     const fetchScheduledSales = useCallback(async () => {
         setLoadingSales(true);
         setSalesError(null);
@@ -457,9 +432,6 @@ export default function Financeiro() {
         }
     }, []);
 
-    // ---
-    // Fetch Transactions
-    // ---
     const fetchTransactions = useCallback(async () => {
         setLoadingTransactions(true);
         setTransactionsError(null);
@@ -478,18 +450,12 @@ export default function Financeiro() {
         }
     }, []);
 
-    // ---
-    // Initial Data Fetch on Component Mount
-    // ---
     useEffect(() => {
         fetchScheduledSales();
         fetchTransactions();
         fetchFinancialMetrics();
     }, [fetchScheduledSales, fetchTransactions, fetchFinancialMetrics]);
 
-    // ---
-    // Transaction Modal Handlers
-    // ---
     const handleOpenNewTransactionModal = () => {
         setShowNewTransactionModal(true);
     };
@@ -536,9 +502,7 @@ export default function Financeiro() {
         }
     };
 
-    // ---
-    // Scheduled Sale Modal Handlers
-    // ---
+
     const handleOpenNewScheduledSaleModal = () => {
         setShowNewScheduledSaleModal(true);
     };
@@ -574,9 +538,6 @@ export default function Financeiro() {
         }
     };
 
-    // ---
-    // Conclude Sale Handler
-    // ---
     const handleConcluirSale = async (id) => {
         if (!window.confirm('Tem certeza que deseja concluir esta venda programada?')) {
             return;
@@ -607,7 +568,7 @@ export default function Financeiro() {
             if (result.concluida) {
                 alert('Venda programada concluída com sucesso!');
                 fetchScheduledSales();
-                fetchTransactions(); // Refresh transactions as concluding a sale might affect financial movements
+                fetchTransactions();
                 fetchFinancialMetrics();
             } else {
                 alert('Falha ao concluir a venda programada. Verifique o console para mais detalhes.');
@@ -618,9 +579,6 @@ export default function Financeiro() {
         }
     };
 
-    // ---
-    // Delete Sale Handler
-    // ---
     const handleDeleteSale = async (id) => {
         if (!window.confirm('Tem certeza que deseja EXCLUIR esta venda programada? Esta ação não pode ser desfeita.')) {
             return;
@@ -653,9 +611,6 @@ export default function Financeiro() {
         }
     };
 
-    // ---
-    // Handle Salary Payments
-    // ---
     const handleMakeSalaryPayment = async () => {
         if (!window.confirm('Tem certeza que deseja realizar o pagamento de salários? Isso registrará uma saída no caixa.')) {
             return;

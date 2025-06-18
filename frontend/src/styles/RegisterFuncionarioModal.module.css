@@ -1,4 +1,4 @@
-/* src/styles/RegisterFuncionarioModal.module.css */
+
 
 .modalOverlayFuncionario {
     position: fixed;
@@ -14,13 +14,13 @@
 }
 
 .modalContentFuncionario {
-    background-color: #ffffff; /* Usando cor direta caso as vars não estejam disponíveis */
+    background-color: #ffffff;
     padding: 2.5rem;
     border-radius: 12px;
     width: 100%;
     max-width: 550px;
-    max-height: 90vh; /* Para garantir que o modal não ultrapasse a altura da tela */
-    overflow-y: auto; /* Adiciona scroll se o conteúdo for maior */
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     color: #333;
     font-family: 'Montserrat', sans-serif;
@@ -73,7 +73,6 @@
     font-weight: 500;
 }
 
-/* Estilo unificado para inputs e selects */
 .formGroupFuncionario input,
 .formGroupFuncionario select {
     background-color: #f5f5f5;
@@ -84,20 +83,20 @@
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    width: 100%; /* Garante que o campo ocupe todo o espaço */
-    box-sizing: border-box; /* Garante que padding não afete a largura total */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .formGroupFuncionario input:focus,
 .formGroupFuncionario select:focus {
     outline: none;
-    border-color: #007bff; /* Usando cor padrão do seu botão */
+    border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
 .formActionsFuncionario {
     display: flex;
-    justify-content: flex-end; /* Alinhando à direita, como no original */
+    justify-content: flex-end;
     gap: 1rem;
     margin-top: 2rem;
 }

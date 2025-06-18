@@ -39,7 +39,6 @@ function RegisterProductModal({ onClose, onSave }) {
                         <input type="number" id="quantidade" name="quantidade" placeholder="Ex: 10" value={product.quantidade} onChange={handleChange} required />
                     </div>
                     <div className={styles.formActions}>
-                        {/* BOTÕES COM A ORDEM CORRIGIDA */}
                         <button type="button" onClick={onClose} className={styles.cancelButton}>Cancelar</button>
                         <button type="submit" className={styles.saveButton}>Salvar</button>
                     </div>

@@ -12,7 +12,6 @@
     background-color: var(--sidebar-bg);
   color: var(--sidebar-text);
   width: var(--sidebar-width-expanded);
-  /* height: 100vh; <-- REMOVIDO */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -28,7 +27,6 @@
   overflow-x: hidden;
 }
 
-/* --- CABEÇALHO --- */
 .header {
   display: flex;
   align-items: center;
@@ -80,7 +78,6 @@
   pointer-events: none;
 }
 
-/* --- BOTÃO DE TOGGLE --- */
 .toggleSection {
   display: flex;
   justify-content: flex-end;
@@ -109,7 +106,6 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* --- LISTA E LINKS DE NAVEGAÇÃO --- */
 .navList {
   list-style: none;
   padding: 0;
@@ -163,7 +159,6 @@
   margin-right: 0 !important;
 }
 
-/* --- SEÇÃO DE LOGOUT --- */
 .logoutSection {
   margin-top: auto;
 }

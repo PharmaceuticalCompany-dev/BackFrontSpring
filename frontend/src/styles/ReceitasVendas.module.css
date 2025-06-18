@@ -1,25 +1,21 @@
-/* Define CSS Variables for easy theme management */
+
 :root {
-    /* Novos valores baseados no seu conjunto de cores */
-    --BG: #f0f2f5; /* Cor de fundo geral */
+    --BG: #f0f2f5;
     --BLACK: #121212;
     --WHITE: #ffffff;
-    --ORANGE: #ff6600; /* Cor principal de destaque (laranja) */
-    --TXT_PRIMARY: #333333; /* Cor de texto primária (preto mais suave) */
-    --TXT_SECONDARY: #666666; /* Cor de texto secundária (cinza) */
-    --DARK_BLUE: #2d404c; /* Azul escuro específico do seu layout */
+    --ORANGE: #ff6600;
+    --TXT_PRIMARY: #333333; /
+    --TXT_SECONDARY: #666666;
+    --DARK_BLUE: #2d404c;
 
-    /* Variáveis remanescentes que não são cores diretas ou que mantêm um propósito específico */
-    --border-light: #ccc; /* Borda cinza clara, um pouco mais padrão */
+    --border-light: #ccc;
     --table-header-bg: #f2f2f2;
     --table-row-even-bg: #f9f9f9;
-    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.05);
 
-    /* Specific button colors (can be defined directly or use primary colors) */
-    --RED_DELETE: #e74c3c; /* Vermelho forte para deletar */
+    --RED_DELETE: #e74c3c;
 }
 
-/* General Body and Font */
 body {
     margin: 0;
     padding: 0;
@@ -28,18 +24,17 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* General Layout */
 .container {
     display: flex;
     min-height: 100vh;
-    background-color: var(--BG); /* Usando a variável direta */
+    background-color: var(--BG);
 }
 
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: var(--DARK_BLUE); /* Usando a variável direta */
-    color: var(--WHITE); /* Usando a variável direta */
+    background-color: var(--DARK_BLUE);
+    color: var(--WHITE);
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -51,17 +46,17 @@ body {
     font-weight: bold;
     margin-bottom: 30px;
     text-align: center;
-    color: var(--WHITE); /* Usando a variável direta */
+    color: var(--WHITE);
 }
 
 .sidebarMenu a {
-    color: var(--WHITE); /* Usando a variável direta */
+    color: var(--WHITE);
     text-decoration: none;
     font-size: 1.1em;
 }
 
 .sidebarMenu {
-    color: var(--WHITE); /* Usando a variável direta */
+    color: var(--WHITE);
     text-decoration: none;
     font-size: 1.1em;
     display: block;
@@ -78,9 +73,9 @@ body {
 }
 
 .menuItem a {
-    color: var(--WHITE); /* Usando a variável direta */
+    color: var(--WHITE);
     text-decoration: none;
-    padding: 10px 15px; /* Increased padding slightly */
+    padding: 10px 15px;
     display: block;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;

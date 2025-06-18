@@ -22,13 +22,11 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Estilos base para os ícones */
 .iconSuccess, .iconError {
   font-size: 4rem;
   margin-bottom: 1rem;
 }
 
-/* Cores específicas por variante */
 .iconSuccess { color: var(--GREEN_ADD); }
 .iconError { color: var(--RED_DELETE); }
 

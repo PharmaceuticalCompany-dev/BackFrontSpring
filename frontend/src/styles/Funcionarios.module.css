@@ -1,22 +1,19 @@
-/* src/styles/Funcionario.module.css */
 
 .funcionarioContainer {
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Cabeçalho: Título e Total */
 .header {
-    position: sticky; /* OU use 'fixed' se quiser fixo absoluto */
     top: 0;
-    z-index: 100; /* Garante que fique acima dos outros */
-    background-color: white; /* Pode usar um blur também */
-    backdrop-filter: blur(10px); /* Opcional: efeito vidro fosco */
+    z-index: 100;
+    background-color: white;
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil ao rolar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-radius: 10px;
 }
 
@@ -36,7 +33,6 @@
     color: var(--TEXT-MUTED);
 }
 
-/* Botões de Ação: Adicionar */
 .actionsContainer {
     display: flex;
     gap: 1rem;
@@ -62,7 +58,6 @@
     transform: translateY(-3px);
 }
 
-/* Tabela de Funcionários */
 .tableContainer {
     width: 100%;
 }

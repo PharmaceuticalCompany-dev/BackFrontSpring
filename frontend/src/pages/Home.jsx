@@ -1,8 +1,7 @@
-// src/pages/Home.jsx
 
 import styles from '../styles/Home.module.css';
 import DashboardCard from '../components/DashboardCard';
-import FinancialSummary from '../components/FinancialSummary'; // 1. Importe o novo componente
+import FinancialSummary from '../components/FinancialSummary';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -30,7 +29,6 @@ export default function Home() {
                 ))}
             </div>
 
-            {/* 2. Adicione o componente aqui, dentro de uma nova seção */}
             <section className={styles.financialSection}>
                 <h2 className={styles.sectionTitle}>Resumo Financeiro</h2>
                 <FinancialSummary />

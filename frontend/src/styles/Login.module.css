@@ -1,28 +1,23 @@
-/* src/styles/Login.module.css */
-
-/* --- ESTRUTURA PRINCIPAL (MOBILE-FIRST) --- */
 
 .loginPageContainer {
   display: flex;
-  flex-direction: column; /* Em telas pequenas, um fica em cima do outro */
+  flex-direction: column;
   min-height: 100vh;
 
 }
 
-/* Em telas pequenas, o logo não aparece para dar foco ao formulário */
 .logoBox {
   display: none; 
 
 }
 
-/* O container do login ocupa a tela toda em celulares */
 .loginContainer {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--DARK_BLUE);
-  padding: 1rem; /* Adiciona um respiro em telas pequenas */
+  padding: 1rem;
 }
 
 .loginBox {
@@ -35,7 +30,6 @@
   text-align: center;
 }
 
-/* --- ELEMENTOS DO FORMULÁRIO --- */
 
 .loginTitle {
   margin-bottom: 3rem;
@@ -45,12 +39,11 @@
 }
 
 .errorMessage {
-  color: var(--RED-DELETE);
+  color: var(--RED_DELETE);
   margin-bottom: 1rem;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* --- BOTÃO (JÁ ESTAVA CORRETO) --- */
 .btn {
   width: 100%;
   padding: 0.8rem;
@@ -71,17 +64,15 @@
   transform: translateY(-3px);
 }
 
-/* --- LINKS DE CADASTRO --- */
 .linkText {
   margin-top: 2rem;
   color: var(--TEXT-MUTED);
   font-family: 'Montserrat', sans-serif;
 
-  /* --- ADIÇÕES PARA O ESPAÇAMENTO --- */
-  display: flex;          /* 1. Transforma o container em flexbox */
-  flex-direction: column; /* 2. Garante que os itens fiquem um sobre o outro */
-  align-items: center;    /* 3. Centraliza os itens horizontalmente */
-  gap: 5px;               /* 4. Adiciona o espaço vertical de 4px entre as linhas */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .link {
@@ -92,10 +83,9 @@
 
 }
 
-/* SUA ANIMAÇÃO SERÁ APLICADA AQUI */
 .hover {
   display: inline-block;
-  transition: transform 0.3s ease; /* ...para cá, e seja mais específico */
+  transition: transform 0.3s ease;
 }
 
 .hover:hover {
@@ -103,11 +93,10 @@
 }
 
 
-/* --- RESPONSIVIDADE PARA TELAS MAIORES (TABLETS E DESKTOPS) --- */
 
 @media (min-width: 768px) {
   .loginPageContainer {
-    flex-direction: row; /* Volta a ser lado a lado */
+    flex-direction: row;
   }
 
   .logoBox {
@@ -115,7 +104,6 @@
     width: 50%;
     justify-content: center;
     align-items: center;
-    /* CORRIGIDO: Agora usa a mesma cor da outra metade da tela */
     background-color: var(--BG); 
   }
 

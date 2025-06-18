@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/RegisterFuncionarioModal.module.css'; // 1. Importar o CSS Module
+import styles from '../styles/RegisterFuncionarioModal.module.css';
 
 function RegisterFuncionarioModal({ onClose, onSave }) {
     const [funcionarioData, setFuncionarioData] = useState({
@@ -35,7 +35,6 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
     };
 
     return (
-        // 2. Aplicar as classes do CSS Module em vez de estilos inline
         <div className={styles.modalOverlayFuncionario}>
             <div className={styles.modalContentFuncionario}>
                 <div className={styles.modalHeaderFuncionario}>
@@ -44,24 +43,20 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.formFuncionario}>
-                    {/* ID */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="ID">ID</label>
                         <input type="number" id="idFuncionario" name="idFuncionario" value={funcionarioData.id} onChange={handleChange} required />
                     </div>
-                    {/* Nome Completo */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="nome">Nome Completo</label>
                         <input type="text" id="nome" name="nome" value={funcionarioData.nome} onChange={handleChange} required />
                     </div>
 
-                    {/* Data de Nascimento */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
                         <input type="date" id="dataNascimento" name="dataNascimento" value={funcionarioData.dataNascimento} onChange={handleChange} required />
                     </div>
 
-                    {/* Gênero */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="genero">Gênero</label>
                         <select id="genero" name="genero" value={funcionarioData.genero} onChange={handleChange} required>
@@ -72,7 +67,6 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
                         </select>
                     </div>
 
-                    {/* Cargo */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="cargo">Cargo</label>
                         <select id="cargo" name="cargo" value={funcionarioData.cargo} onChange={handleChange} required>
@@ -87,13 +81,11 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
                         </select>
                     </div>
 
-                    {/* Salário Base */}
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="salario">Salário Base (R$)</label>
                         <input type="number" id="salario" name="salario" step="0.01" placeholder="Ex: 2500.50" value={funcionarioData.salario} onChange={handleChange} required />
                     </div>
 
-                    {/* Botões de Ação */}
                     <div className={styles.formActionsFuncionario}>
                         <button type="button" onClick={onClose} className={styles.cancelButtonFuncionario}>
                             Cancelar

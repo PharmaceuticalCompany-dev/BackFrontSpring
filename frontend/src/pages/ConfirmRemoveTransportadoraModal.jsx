@@ -1,6 +1,5 @@
-// src/pages/ConfirmRemoveTransportadoraModal.jsx
 import React from 'react';
-import styles from '../styles/RegisterProductModal.module.css'; // Reutilizando o estilo
+import styles from '../styles/RegisterProductModal.module.css';
 
 function ConfirmRemoveTransportadoraModal({ transportadora, onClose, onConfirm }) {
     if (!transportadora) return null;

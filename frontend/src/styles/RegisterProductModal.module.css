@@ -1,4 +1,4 @@
-/* src/styles/RegisterProductModal.module.css */
+
 
 .modalOverlay {
     position: fixed;
@@ -88,14 +88,12 @@
 
 .formActions {
     display: flex;
-    /* CENTRALIZANDO OS BOTÕES NOVAMENTE */
     justify-content: center;
     gap: 1rem;
     margin-top: 2rem;
 }
 
 .saveButton, .cancelButton {
-    /* AUMENTANDO O PADDING PARA PREENCHER MAIS ESPAÇO */
     padding: 12px 50px;
     border: none;
     border-radius: 8px;
