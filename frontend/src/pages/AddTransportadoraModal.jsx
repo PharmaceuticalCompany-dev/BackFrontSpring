@@ -1,12 +1,11 @@
-// src/pages/AddTransportadoraModal.jsx
 import React, { useState } from 'react';
-import styles from '../styles/RegisterProductModal.module.css'; // Reutilizando o estilo dos outros modais
+import styles from '../styles/RegisterProductModal.module.css';
 
 function AddTransportadoraModal({ onClose, onSave }) {
     const [transportadora, setTransportadora] = useState({
         nome: '',
         regiao: '',
-        statusParceria: 'Ativo', // <--- CHANGED THIS TO statusParceria
+        statusParceria: 'Ativo',
     });
 
     const handleChange = (e) => {
@@ -16,7 +15,6 @@ function AddTransportadoraModal({ onClose, onSave }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Basic validation for required fields
         if (!transportadora.nome || !transportadora.regiao || !transportadora.statusParceria) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
@@ -37,7 +35,7 @@ function AddTransportadoraModal({ onClose, onSave }) {
                         <input
                             type="text"
                             id="nome"
-                            name="nome" // Make sure 'name' attribute matches state key
+                            name="nome"
                             value={transportadora.nome}
                             onChange={handleChange}
                             required
@@ -48,7 +46,7 @@ function AddTransportadoraModal({ onClose, onSave }) {
                         <input
                             type="text"
                             id="regiao"
-                            name="regiao" // Make sure 'name' attribute matches state key
+                            name="regiao"
                             placeholder="Ex: Sudeste"
                             value={transportadora.regiao}
                             onChange={handleChange}
@@ -56,10 +54,10 @@ function AddTransportadoraModal({ onClose, onSave }) {
                         />
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="statusParceria">Status da Parceria</label> {/* <--- CHANGED LABEL */}
+                        <label htmlFor="statusParceria">Status da Parceria</label>
                         <select
-                            id="statusParceria" // <--- CHANGED ID
-                            name="statusParceria" // <--- CHANGED NAME
+                            id="statusParceria"
+                            name="statusParceria"
                             value={transportadora.statusParceria}
                             onChange={handleChange}
                             style={{padding: '1rem', border: '1px solid #e0e0e0', borderRadius: '8px', fontSize: '1rem'}}

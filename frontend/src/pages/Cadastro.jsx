@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Cadastro.module.css'; 
 import logoFarmacia from '/assets/images/logoFarmacia.png';
 
-// Importando os componentes reutilizáveis
 import FormField from '../components/FormField';
 import FeedbackModal from '../components/FeedbackModal';
 
@@ -11,24 +10,20 @@ export default function Cadastro() {
   const apiUrl = 'http://localhost:8081/farmaciasenai_war/funcionarios';
   const navigate = useNavigate();
 
-  // Estado para o modal de feedback
   const [feedback, setFeedback] = useState({ isOpen: false, variant: '', title: '', message: '' });
-  
-  // Estado para a lista de funcionários
+
   const [funcionarios, setFuncionarios] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Estado para os dados do formulário
   const [formData, setFormData] = useState({
     id: '',
     nome: '',
-    dataDeNascimento: '', // Mantido conforme sua solicitação
+    dataDeNascimento: '',
     genero: '',
     cargo: '',
     salario: ''
   });
-  
-  // --- Lógica para buscar e submeter ---
+
   useEffect(() => {
     listarFuncionarios();
   }, []);
@@ -41,9 +36,8 @@ export default function Cadastro() {
       const data = await response.json();
       setFuncionarios(data);
     } catch (error) {
-      // Não mostraremos erro do GET no modal para não atrapalhar o formulário
       console.error(error);
-      setFuncionarios([]); // Garante que a lista fique vazia em caso de erro
+      setFuncionarios([]);
     } finally {
       setLoading(false);
     }
@@ -52,7 +46,7 @@ export default function Cadastro() {
   const handleModalClose = () => {
     setFeedback({ ...feedback, isOpen: false });
     if (feedback.variant === 'success') {
-      listarFuncionarios(); // Atualiza a lista após fechar o modal de sucesso
+      listarFuncionarios();
     }
   };
 
@@ -67,7 +61,7 @@ export default function Cadastro() {
     const funcionarioParaEnviar = {
       id: Number(formData.id),
       nome: formData.nome,
-      dataDeNascimento: formData.dataDeNascimento, // Enviando a data de nascimento
+      dataDeNascimento: formData.dataDeNascimento,
       genero: formData.genero.toUpperCase(),
       cargo: formData.cargo.toUpperCase(),
       salario: Number(formData.salario)
@@ -100,7 +94,6 @@ export default function Cadastro() {
     }
   };
 
-  // --- Renderização do Componente ---
   return (
     <div className={styles.cadastroPageContainer}>
       <div className={styles.logoBox}>
@@ -109,8 +102,7 @@ export default function Cadastro() {
 
       <div className={styles.cadastroContainer}>
         <div className={styles.cadastroBox}>
-          
-          {/* LISTA DE FUNCIONÁRIOS */}
+
           <div className={styles.listaContainer}>
             <h3>Funcionários Cadastrados</h3>
             <div className={styles.funcionariosList}>

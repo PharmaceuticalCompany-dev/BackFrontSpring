@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import styles from '../styles/RegisterProductModal.module.css'; // REMOVIDO TEMPORARIAMENTE
+
 
 function EditFuncionarioModal({ funcionarioToEdit, onClose, onSave }) {
     const [funcionario, setFuncionario] = useState({
@@ -49,7 +49,6 @@ function EditFuncionarioModal({ funcionarioToEdit, onClose, onSave }) {
     };
 
     return (
-        // Substituído por div simples sem classes de estilo
         <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
             backgroundColor: 'rgba(0, 0, 0, 0.5)',

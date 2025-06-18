@@ -1,9 +1,6 @@
-// src/components/FinancialSummary.jsx
-
 import React, { useState, useEffect, useCallback } from 'react';
-import styles from '../styles/FinancialSummary.module.css'; // Usaremos um CSS dedicado
+import styles from '../styles/FinancialSummary.module.css';
 
-// Componente interno para o card individual, vindo do seu Financeiro.jsx
 const FinancialCard = ({ title, value }) => {
     return (
         <div className={styles.financialCard}>
@@ -13,9 +10,7 @@ const FinancialCard = ({ title, value }) => {
     );
 };
 
-// Componente principal que busca os dados e os exibe
 export default function FinancialSummary() {
-    // --- Estados para os valores dos cards ---
     const [vendaMes, setVendaMes] = useState('0,00');
     const [estimativaLucroAnual, setEstimativaLucroAnual] = useState('0,00');
     const [custoAnual, setCustoAnual] = useState('0,00');
@@ -23,7 +18,6 @@ export default function FinancialSummary() {
     const [caixaTotal, setCaixaTotal] = useState('0,00');
     const [loading, setLoading] = useState(true);
 
-    // --- Função para buscar os dados da API (movida do Financeiro.jsx) ---
     const fetchFinancialMetrics = useCallback(async () => {
         setLoading(true);
         try {
@@ -67,7 +61,6 @@ export default function FinancialSummary() {
         }
     }, []);
 
-    // --- Efeito para buscar os dados quando o componente é montado ---
     useEffect(() => {
         fetchFinancialMetrics();
     }, [fetchFinancialMetrics]);
@@ -76,7 +69,6 @@ export default function FinancialSummary() {
         return <div className={styles.loadingText}>Carregando resumo financeiro...</div>;
     }
 
-    // --- Renderização dos cards ---
     return (
         <div className={styles.financialMetricsRow}>
             <FinancialCard title="Venda Mês" value={`R$ ${vendaMes}`} />

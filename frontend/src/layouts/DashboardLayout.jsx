@@ -8,7 +8,7 @@ const DashboardLayout = () => {
     <div className={styles.layout}>
       <Sidebar />
       <main className={styles.content}>
-        <Outlet /> {/* As páginas (Dashboard, Transportadoras, etc.) serão renderizadas aqui */}
+        <Outlet />
       </main>
     </div>
   );
