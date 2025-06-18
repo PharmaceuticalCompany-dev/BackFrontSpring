@@ -1,22 +1,49 @@
-
 .estoqueContainer {
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
 }
 
+/* ======================================= */
+/* ===== INÍCIO DA ÁREA CORRIGIDA NO CSS ===== */
+/* ======================================= */
+
 .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: white;
-    backdrop-filter: blur(10px);
+    /* REMOVIDO position: sticky e suas propriedades relacionadas */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     border-radius: 10px;
+    background-color: white;
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem; /* ADICIONADO para dar espaço abaixo do header */
 }
+
+.actionsContainer {
+    display: flex;
+    align-items: center; /* Centraliza os itens verticalmente */
+    gap: 1rem;
+    /* REMOVIDO margin-bottom: 2rem; */
+}
+
+.actionButton {
+    padding: 12px 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color .3s ease, transform .3s ease;
+    border: none;
+    background-color: var(--PRIMARY_TEAL);
+    color: white;
+    /* REMOVIDO margin-top: 20px; */
+}
+
+/* ===================================== */
+/* ===== FIM DA ÁREA CORRIGIDA NO CSS ===== */
+/* ===================================== */
+
 
 .header h1 {
     font-size: 1.8rem;
@@ -34,33 +61,13 @@
     color: var(--TEXT-MUTED);
 }
 
-.actionsContainer {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.actionButton {
-    padding: 12px 35px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background-color .3s ease, transform .3s ease;
-    margin-top: 20px;
-    border: none;
-    background-color: var(--PRIMARY_TEAL);
-    color: white;
-   
-}
-
 .actionButton:hover {
     background-color: var(--DARK_BLUE);
     transform: translateY(-3px);
 }
 
 .tableContainer {
-    /* background-color: var(--WHITE); */
+     /*background-color: var(--WHITE);*/
 }
 
 .productTable {

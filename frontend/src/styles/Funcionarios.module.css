@@ -1,24 +1,11 @@
-
 .funcionarioContainer {
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
     width: 100%;
 }
 
-/* Em frontend/src/styles/Funcionarios.module.css */
-
 .header {
-    /* REMOVA a linha abaixo */
-    /* position: fixed; */
-
-    /* MODIFIQUE a linha abaixo */
-    width: 100%; /* De 78% para 100% */
-
-    /* Mantenha o resto dos seus estilos, mas pode remover o margin-top e o z-index */
-    /* top: 0; */
-    /* z-index: 100; */
-    /* margin-top: 20px; */
-
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,14 +14,13 @@
     border-radius: 10px;
     background-color: white;
     backdrop-filter: blur(10px);
-    margin-bottom: 2rem; /* Adicione uma margem inferior para separar do conteúdo */
+    margin-bottom: 2rem;
 }
 
-/* E ajuste a margem do container da tabela */
 .tableContainer {
     width: 100%;
-    /* margin-top: 100px; */ /* Não é mais necessário, remova ou comente */
 }
+
 .header h1 {
     font-size: 1.8rem;
     font-weight: bold;
@@ -51,14 +37,19 @@
     color: var(--TEXT-MUTED);
 }
 
+
+/* ======================================= */
+/* ===== INÍCIO DA ÁREA CORRIGIDA NO CSS ===== */
+/* ======================================= */
+
 .actionsContainer {
     display: flex;
+    align-items: center; /* Alinha o texto e o botão verticalmente */
     gap: 1rem;
-    margin-bottom: 2rem;
+    /* As margens desnecessárias foram removidas */
 }
 
 .actionButton {
-    align-self: center;
     background-color: var(--PRIMARY_TEAL);
     color: var(--WHITE);
     padding: 12px 35px;
@@ -67,16 +58,19 @@
     font-size: 1rem;
     font-weight: 600;
     transition: transform .3s ease-in-out, background-color .3s ease;
-    margin-top: 20px;
     border: none;
+    /* As propriedades align-self e margin-top foram removidas */
 }
+
+/* ===================================== */
+/* ===== FIM DA ÁREA CORRIGIDA NO CSS ===== */
+/* ===================================== */
+
 
 .actionButton:hover {
     background-color: var(--DARK_BLUE);
     transform: translateY(-3px);
 }
-
-
 
 .employeeTable {
     width: 100%;
@@ -154,16 +148,12 @@
     background-color: var(--RED_DELETE);
 }
 
-/* No final do arquivo frontend/src/styles/Funcionarios.module.css */
-
 @media (max-width: 768px) {
     .employeeTable thead {
-        /* Esconde o cabeçalho original em telas pequenas */
         display: none;
     }
 
     .employeeTable tr {
-        /* Transforma cada linha em um bloco, como um cartão */
         display: block;
         margin-bottom: 1.5rem;
         border: 1px solid var(--BORDER_LIGHT);
@@ -172,9 +162,8 @@
     }
 
     .employeeTable td {
-        /* Células agora são blocos de largura total */
         display: block;
-        text-align: right; /* Alinha o valor à direita */
+        text-align: right;
         padding: 0.5rem 0;
         border-bottom: 1px dotted var(--BORDER_LIGHT);
     }
@@ -184,19 +173,17 @@
     }
 
     .employeeTable td::before {
-        /* Exibe o data-label que colocamos no JSX */
         content: attr(data-label);
-        float: left; /* Alinha o label à esquerda */
+        float: left;
         font-weight: bold;
         color: var(--TEXT-DARK);
     }
 
     .rowActions {
-        justify-content: flex-end; /* Alinha os botões à direita */
+        justify-content: flex-end;
         margin-top: 1rem;
     }
 
-    /* Ajusta o header fixo para telas menores */
     .header {
         position: relative;
         width: 100%;
@@ -208,40 +195,5 @@
 
     .tableContainer {
         margin-top: 1rem;
-    }
-}
-
-/* No final do arquivo frontend/src/styles/Financeiro.module.css */
-
-@media (max-width: 1024px) {
-    .VendaMesContainer {
-        /* Transforma o container principal em uma coluna */
-        flex-direction: column;
-        align-items: center; /* Centraliza os itens */
-    }
-
-    .rightColumnContent {
-        width: 100%;
-    }
-
-    .financialMetricsGrid, .financialCard {
-        /* Garante que os cards financeiros ocupem a largura total */
-        width: 100%;
-    }
-
-    .paymentButton, .newTransactionButton, .newScheduledSaleButton {
-        /* Remove o posicionamento absoluto e ajusta para o fluxo normal */
-        position: relative;
-        width: 100%;
-        margin-top: 1rem;
-        margin-left: 0;
-    }
-
-    .transactionsContainer, .scheduledSalesContainer {
-        /* Garante que os containers de tabela ocupem a largura disponível */
-        width: 100%;
-        max-height: none; /* Remove a altura máxima para permitir rolagem da página */
-        overflow-y: visible;
-        height: auto;
     }
 }

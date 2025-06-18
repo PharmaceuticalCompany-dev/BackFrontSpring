@@ -20,53 +20,68 @@ const FinancialCard = ({ title, value }) => {
     );
 };
 
+// =================================================================
+// ===== INÍCIO DA ÁREA CORRIGIDA: COMPONENTE TransactionsTable =====
+// =================================================================
 const TransactionsTable = ({ transactions, onNewTransactionClick, onMakePaymentClick, loading, error }) => {
     return (
         <div className={styles.transactionsContainer}>
-            <h3 className={styles.transactionsTitle}>Transações</h3>
+            {/* 1. Criado um cabeçalho para alinhar título e botões */}
+            <div className={styles.tableHeader}>
+                <h3 className={styles.transactionsTitle}>Transações</h3>
+                {/* 2. Criado um contêiner apenas para os botões */}
+                <div className={styles.tableActions}>
+                    <button className={styles.paymentButton} onClick={onMakePaymentClick}>
+                        $ Realizar Pagamentos
+                    </button>
+                    <button className={styles.newTransactionButton} onClick={onNewTransactionClick}>
+                        + Nova transação
+                    </button>
+                </div>
+            </div>
+
             <table className={styles.transactionsTable}>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Descrição</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {loading ? (
-                        <tr>
-                            <td colSpan="5">Carregando transações...</td>
+                {loading ? (
+                    <tr>
+                        <td colSpan="4">Carregando transações...</td>
+                    </tr>
+                ) : error ? (
+                    <tr>
+                        <td colSpan="4" className={styles.errorText}>Erro ao carregar transações: {error}</td>
+                    </tr>
+                ) : transactions.length > 0 ? (
+                    transactions.map(transaction => (
+                        <tr key={transaction.id}>
+                            <td>{transaction.id}</td>
+                            <td>{transaction.tipo}</td>
+                            <td>R$ {transaction.valor ? transaction.valor.toFixed(2).replace('.', ',') : '0,00'}</td>
+                            <td>{transaction.descricao}</td>
                         </tr>
-                    ) : error ? (
-                        <tr>
-                            <td colSpan="5" className={styles.errorText}>Erro ao carregar transações: {error}</td>
-                        </tr>
-                    ) : transactions.length > 0 ? (
-                        transactions.map(transaction => (
-                            <tr key={transaction.id}>
-                                <td>{transaction.id}</td>
-                                <td>{transaction.tipo}</td>
-                                <td>R$ {transaction.valor ? transaction.valor.toFixed(2).replace('.', ',') : '0,00'}</td>
-                                <td>{transaction.descricao}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="5">Nenhuma transação encontrada.</td>
-                        </tr>
-                    )}
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="4">Nenhuma transação encontrada.</td>
+                    </tr>
+                )}
                 </tbody>
             </table>
-            <button className={styles.newTransactionButton} onClick={onNewTransactionClick}>
-                + Nova transação
-            </button>
-            <button className={styles.paymentButton} onClick={onMakePaymentClick}>
-                $ Realizar Pagamentos
-            </button>
+            {/* 3. Os botões foram MOVIDOS daqui para o cabeçalho acima */}
         </div>
     );
 };
+// ==============================================================
+// ===== FIM DA ÁREA CORRIGIDA: COMPONENTE TransactionsTable =====
+// ==============================================================
+
 
 const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, onDeleteSale }) => {
     return (
@@ -74,52 +89,52 @@ const ScheduledSalesTable = ({ sales, onNewScheduledSaleClick, onConcluirSale, o
             <h3 className={styles.scheduledSalesTitle}>Vendas Programadas</h3>
             <table className={styles.transactionsTable}>
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Valor</th>
-                        <th>Produto ID</th>
-                        <th>Quantidade</th>
-                        <th>Transportadora ID</th>
-                        <th>Concluída</th>
-                        <th>Ações</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Valor</th>
+                    <th>Produto ID</th>
+                    <th>Quantidade</th>
+                    <th>Transportadora ID</th>
+                    <th>Concluída</th>
+                    <th>Ações</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {sales.length > 0 ? (
-                        sales.map(sale => (
-                            <tr key={sale.id} className={sale.concluida ? styles.completedSale : ''}>
-                                <td>{sale.id}</td>
-                                <td>{sale.dataVenda}</td>
-                                <td>R$ {sale.valorVendaCalculado ? sale.valorVendaCalculado.toFixed(2).replace('.', ',') : 'N/A'}</td>
-                                <td>{sale.produtoId}</td>
-                                <td>{sale.quantidade}</td>
-                                <td>{sale.transportadoraId || 'N/A'}</td>
-                                <td>{sale.concluida ? 'Sim' : 'Não'}</td>
-                                <td>
-                                    <input
-                                        type="checkbox"
-                                        checked={sale.concluida}
-                                        onChange={() => onConcluirSale(sale.id)}
-                                        disabled={sale.concluida}
-                                    />
-                                    {!sale.concluida && (
-                                        <button
-                                            className={`${styles.actionButton} ${styles.deleteButton}`}
-                                            onClick={() => onDeleteSale(sale.id)}
-                                            title="Excluir Venda"
-                                        >
-                                            Excluir
-                                        </button>
-                                    )}
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="8">Nenhuma venda programada encontrada.</td>
+                {sales.length > 0 ? (
+                    sales.map(sale => (
+                        <tr key={sale.id} className={sale.concluida ? styles.completedSale : ''}>
+                            <td>{sale.id}</td>
+                            <td>{sale.dataVenda}</td>
+                            <td>R$ {sale.valorVendaCalculado ? sale.valorVendaCalculado.toFixed(2).replace('.', ',') : 'N/A'}</td>
+                            <td>{sale.produtoId}</td>
+                            <td>{sale.quantidade}</td>
+                            <td>{sale.transportadoraId || 'N/A'}</td>
+                            <td>{sale.concluida ? 'Sim' : 'Não'}</td>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    checked={sale.concluida}
+                                    onChange={() => onConcluirSale(sale.id)}
+                                    disabled={sale.concluida}
+                                />
+                                {!sale.concluida && (
+                                    <button
+                                        className={`${styles.actionButton} ${styles.deleteButton}`}
+                                        onClick={() => onDeleteSale(sale.id)}
+                                        title="Excluir Venda"
+                                    >
+                                        Excluir
+                                    </button>
+                                )}
+                            </td>
                         </tr>
-                    )}
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="8">Nenhuma venda programada encontrada.</td>
+                    </tr>
+                )}
                 </tbody>
             </table>
             <button

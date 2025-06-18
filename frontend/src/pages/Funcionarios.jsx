@@ -116,17 +116,27 @@ function Funcionarios() {
 
     return (
         <div className={styles.funcionarioContainer}>
+            {/* ===============================================
+              ===== INÍCIO DA ÁREA CORRIGIDA NO JSX (HEADER) =====
+              ===============================================
+            */}
             <header className={styles.header}>
                 <h1>Funcionários</h1>
-                <div className={styles.headerActions}>
-                    <p>Total de funcionários: {funcionarios.length}</p>
-                </div>
+
+                {/* 1. Contêiner que agrupa todos os elementos da direita */}
                 <div className={styles.actionsContainer}>
+                    <div className={styles.headerActions}>
+                        <p>Total de funcionários: {funcionarios.length}</p>
+                    </div>
                     <button className={styles.actionButton} onClick={() => openModal('add')}>
                         + Adicionar Funcionário
                     </button>
                 </div>
             </header>
+            {/* =============================================
+              ===== FIM DA ÁREA CORRIGIDA NO JSX (HEADER) =====
+              =============================================
+            */}
 
             <div className={styles.tableContainer}>
                 {loading ? (
