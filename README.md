@@ -23,3 +23,6 @@ docker compose up -d
 
 # Assim que os serviços estiverem rodando, volte para a raiz do projeto:
 cd ..
+```bash
+
+### Iniciar o FrontEnd
