@@ -1,0 +1,128 @@
+/* src/styles/RegisterFuncionarioModal.module.css */
+
+.modalOverlayFuncionario {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContentFuncionario {
+    background-color: #ffffff; /* Usando cor direta caso as vars não estejam disponíveis */
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh; /* Para garantir que o modal não ultrapasse a altura da tela */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for maior */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.modalHeaderFuncionario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.modalHeaderFuncionario h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.closeButtonFuncionario {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.closeButtonFuncionario:hover {
+    color: #333;
+}
+
+.formFuncionario {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroupFuncionario {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroupFuncionario label {
+    margin-bottom: 0.6rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Estilo unificado para inputs e selects */
+.formGroupFuncionario input,
+.formGroupFuncionario select {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    color: #333;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Garante que o campo ocupe todo o espaço */
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+.formGroupFuncionario input:focus,
+.formGroupFuncionario select:focus {
+    outline: none;
+    border-color: #007bff; /* Usando cor padrão do seu botão */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+.formActionsFuncionario {
+    display: flex;
+    justify-content: flex-end; /* Alinhando à direita, como no original */
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.saveButtonFuncionario, .cancelButtonFuncionario {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    transition: filter 0.2s;
+}
+
+.saveButtonFuncionario {
+    background-color: var(--GREEN_ADD);
+
+}
+
+.cancelButtonFuncionario {
+    background-color: var(--RED_DELETE);
+
+}
+
+.saveButtonFuncionario:hover, .cancelButtonFuncionario:hover {
+    filter: brightness(0.9);
+}

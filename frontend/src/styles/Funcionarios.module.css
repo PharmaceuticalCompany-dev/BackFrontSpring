@@ -45,20 +45,21 @@
 
 .actionButton {
     align-self: center;
-    background-color: #f0f0f0;
-    color: var(--TEXT-DARK);
+    background-color: var(--PRIMARY_TEAL);
+    color: var(--WHITE);
     padding: 12px 35px;
-    border: 1px solid var(--BORDER_LIGHT);
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-weight: 600;
+    transition: transform .3s ease-in-out, background-color .3s ease;
     margin-top: 20px;
+    border: none;
 }
 
 .actionButton:hover {
-    background-color: #e0e0e0;
+    background-color: var(--DARK_BLUE);
+    transform: translateY(-3px);
 }
 
 /* Tabela de Funcionários */

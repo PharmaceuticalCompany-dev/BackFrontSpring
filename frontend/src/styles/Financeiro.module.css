@@ -144,13 +144,20 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    transition: background-color .3s ease, transform .3s ease;
     width: 200px;
     margin-top: auto;
     position: absolute;
     margin-left: 800px;
 
 }
+
+.paymentButton:hover{
+    background-color: var(--DARK_BLUE);
+    transform: translateY(-3px);
+}
+
 .deleteButton{
     align-self: flex-end;
     background-color: var(--PRIMARY_TEAL);
@@ -168,10 +175,6 @@
 
 }
 
-.paymentButton:hover{
-    background-color: var(--DARK_BLUE);
-}
-
 .newTransactionButton {
     align-self: flex-end;
     margin-top: auto;
@@ -182,12 +185,14 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    transition: background-color .3s ease, transform .3s ease;
     position: absolute;
 }
 
 .newTransactionButton:hover {
     background-color: var(--DARK_BLUE);
+    transform: translateY(-3px);
 }
 
 /* NOVOS ESTILOS: Botão Nova Venda Programada */

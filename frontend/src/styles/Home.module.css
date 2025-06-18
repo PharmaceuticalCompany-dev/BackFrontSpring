@@ -33,3 +33,14 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px; /* Espaçamento entre os cards */
 }
+
+
+
+.sectionTitle {
+    font-size: 1.75rem; /* 28px */
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 24px; /* Espaço entre o título e os cards financeiros */
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e9ecef;
+}

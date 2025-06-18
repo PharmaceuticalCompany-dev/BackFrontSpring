@@ -168,7 +168,7 @@ function Estoque() {
                     <p>Total no estoque: {totalEstoque}</p>
                 </div>
                 <div className={styles.actionsContainer}>
-                <button className={styles.actionButton} onClick={() => openModal('add')}>Adicionar</button>
+                <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Produto</button>
                 {/* Removed: <button className={styles.actionButton} onClick={handleComprarProdutosClick}>Comprar Produtos</button> */}
             </div>
             </header>

@@ -41,7 +41,7 @@ function Transportadoras() {
                 throw new Error(`HTTP error! Status: ${response.status} - ${errorText || response.statusText}`);
             }
             const data = await response.json();
-            
+
             // Format data for display: capitalize status and region, format date
             const formattedData = data.map(t => ({
                 ...t,
@@ -123,7 +123,7 @@ function Transportadoras() {
                 // Include other fields the backend might expect for PUT
                 entregas: updatedTransportadora.entregas,
                 // atualizacao is not needed for display, but might be sent to backend if it's part of the entity
-                atualizacao: updatedTransportadora.atualizacao 
+                atualizacao: updatedTransportadora.atualizacao
             };
 
             const response = await fetch(`${API_URL}/${updatedTransportadora.id}`, {
@@ -202,9 +202,11 @@ function Transportadoras() {
                         <option value="Centro-Oeste">Centro-Oeste</option>
                         <option value="Norte">Norte</option>
                     </select>
-                    <button className={styles.addButton} onClick={() => openModal('add')}>
-                        + Adicionar Transportadora
-                    </button>
+                        <button className={styles.addButton} onClick={() => openModal('add')}>
+
+                           + Adicionar Transportadora
+                        </button>
+
                 </div>
             </div>
 
