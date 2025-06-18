@@ -3,13 +3,14 @@ import styles from '../styles/Funcionarios.module.css';
 
 import RegisterFuncionarioModal from './RegisterFuncionarioModal';
 import EditFuncionarioModal from './EditFuncionarioModal';
-
+import AlertModal from '../components/AlertModal.jsx';
 
 function Funcionarios() {
     const [modal, setModal] = useState({ type: null, data: null });
     const [funcionarios, setFuncionarios] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [feedback, setFeedback] = useState({ show: false, type: '', message: '' });
 
     const API_URL = 'http://localhost:8090/funcionarios';
 
@@ -22,30 +23,16 @@ function Funcionarios() {
         setError(null);
         try {
             const response = await fetch(API_URL);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
             const data = await response.json();
 
-            const formattedData = data.map(func => ({
-                id: func.id,
-                nome: func.nome,
-                genero: func.genero,
-                dataNascimento: func.dataNascimento,
-                salario: func.salario,
-                cargo: func.cargo,
-                salarioLiquido: func.salarioLiquido != null ? func.salarioLiquido : 0,
-                valeRefeicao: func.valeRefeicao,
-                valeAlimentacao: func.valeAlimentacao,
-                planoSaude: func.planoSaude,
-                planoOdonto: func.planoOdonto,
-                percentualIrrf: func.percentualIrrf,
-                bonificacao: func.bonificacao,
+            const formatted = data.map(func => ({
+                ...func,
+                salarioLiquido: func.salarioLiquido ?? 0,
             }));
-            setFuncionarios(formattedData);
+            setFuncionarios(formatted);
         } catch (err) {
-            console.error("Erro ao buscar funcionários:", err);
-            setError(`Falha ao carregar funcionários: ${err.message}. Verifique a conexão com o servidor e as políticas CORS.`);
+            setError(`Erro ao carregar: ${err.message}`);
         } finally {
             setLoading(false);
         }
@@ -57,143 +44,89 @@ function Funcionarios() {
 
     const openModal = (type, data = null) => setModal({ type, data });
     const closeModal = () => setModal({ type: null, data: null });
+    const closeFeedback = () => setFeedback({ show: false, type: '', message: '' });
 
-    const handleAddFuncionario = async (funcionarioData) => {
+    const handleAddFuncionario = async (data) => {
         try {
-            const funcionarioToSend = {
-                nome: funcionarioData.nome,
-                dataNascimento: funcionarioData.dataNascimento,
-                genero: funcionarioData.genero,
-                cargo: funcionarioData.cargo,
-                salario: funcionarioData.salario,
-                // Ao adicionar, os campos de benefício/desconto podem ser 0 ou nulos por padrão no backend
-                valeRefeicao: 0,
-                valeAlimentacao: 0,
-                planoSaude: 0,
-                planoOdonto: 0,
-                percentualIrrf: 0,
-                bonificacao: 0,
-            };
-
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(funcionarioToSend),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...data,
+                    valeRefeicao: 0,
+                    valeAlimentacao: 0,
+                    planoSaude: 0,
+                    planoOdonto: 0,
+                    percentualIrrf: 0,
+                    bonificacao: 0,
+                }),
             });
 
-            if (!response.ok) {
-                const errorBody = await response.text();
-                console.error("Erro response body:", errorBody);
-                throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
-            }
-
-            alert('Funcionário adicionado com sucesso!');
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            setFeedback({ show: true, type: 'success', message: 'Funcionário adicionado!' });
             fetchFuncionarios();
             closeModal();
         } catch (err) {
-            console.error("Erro ao adicionar funcionário:", err);
-            alert(`Erro ao adicionar funcionário: ${err.message}. Verifique os dados e a conexão com o servidor.`);
+            setFeedback({ show: true, type: 'error', message: `Erro ao adicionar: ${err.message}` });
         }
     };
 
-    const handleEditFuncionario = async (updatedFuncionario) => {
+    const handleEditFuncionario = async (data) => {
         try {
-            const funcionarioToSend = {
-                id: updatedFuncionario.id,
-                nome: updatedFuncionario.nome,
-                dataNascimento: updatedFuncionario.dataNascimento,
-                genero: updatedFuncionario.genero,
-                cargo: updatedFuncionario.cargo,
-                salario: updatedFuncionario.salario,
-                valeRefeicao: updatedFuncionario.valeRefeicao,
-                valeAlimentacao: updatedFuncionario.valeAlimentacao,
-                planoSaude: updatedFuncionario.planoSaude,
-                planoOdonto: updatedFuncionario.planoOdonto,
-                percentualIrrf: updatedFuncionario.percentualIrrf,
-                bonificacao: updatedFuncionario.bonificacao,
-            };
-
-            const response = await fetch(`${API_URL}/${updatedFuncionario.id}`, {
+            const response = await fetch(`${API_URL}/${data.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(funcionarioToSend),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
             });
 
-            if (!response.ok) {
-                const errorBody = await response.text();
-                console.error("Erro response body:", errorBody);
-                throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
-            }
-
-            alert('Funcionário editado com sucesso!');
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            setFeedback({ show: true, type: 'success', message: 'Funcionário editado!' });
             fetchFuncionarios();
             closeModal();
         } catch (err) {
-            console.error("Erro ao editar funcionário:", err);
-            alert(`Erro ao editar funcionário: ${err.message}. Verifique os dados e a conexão com o servidor.`);
+            setFeedback({ show: true, type: 'error', message: `Erro ao editar: ${err.message}` });
         }
     };
 
-    const handleRemoveFuncionario = async (funcionarioId, funcionarioNome) => {
-        if (!window.confirm(`Tem certeza que deseja remover o funcionário ${funcionarioNome}?`)) {
-            return;
-        }
-
+    const handleRemoveFuncionario = async (id) => {
         try {
-            const response = await fetch(`${API_URL}/${funcionarioId}`, {
+            const response = await fetch(`${API_URL}/${id}`, {
                 method: 'DELETE',
             });
 
-            if (!response.ok) {
-                const errorBody = await response.text();
-                console.error("Erro response body:", errorBody);
-                throw new Error(`HTTP error! Status: ${response.status}. Detalhes: ${errorBody}`);
-            }
-
-            alert('Funcionário removido com sucesso!');
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            setFeedback({ show: true, type: 'success', message: 'Funcionário removido!' });
+            fetchFuncionarios();
         } catch (err) {
-            console.error("Erro ao remover funcionário:", err);
-            alert(`Erro ao remover funcionário: ${err.message}. Verifique a conexão com o servidor.`);
+            setFeedback({ show: true, type: 'error', message: `Erro ao remover: ${err.message}` });
         }
     };
 
     const formatCurrency = (value) => {
         const number = parseFloat(value);
-        if (isNaN(number) || number === null || number === undefined) return "R$ 0,00";
+        if (isNaN(number)) return "R$ 0,00";
         return number.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     };
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
-        try {
-            const [year, month, day] = dateString.split('-');
-            return `${day}/${month}/${year}`;
-        } catch (e) {
-            console.error("Erro ao formatar data:", dateString, e);
-            return dateString;
-        }
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
     };
 
     return (
         <div className={styles.funcionarioContainer}>
             <header className={styles.header}>
                 <h1>Funcionários</h1>
-
                 <div className={styles.headerActions}>
                     <p>Total de funcionários: {funcionarios.length}</p>
                 </div>
                 <div className={styles.actionsContainer}>
-                    <button className={styles.actionButton} onClick={() => openModal('add')}>+ Adicionar Funcionário
+                    <button className={styles.actionButton} onClick={() => openModal('add')}>
+                        + Adicionar Funcionário
                     </button>
                 </div>
-
-
             </header>
-
 
             <div className={styles.tableContainer}>
                 {loading ? (
@@ -201,53 +134,64 @@ function Funcionarios() {
                 ) : error ? (
                     <p className={styles.errorMessage}>{error}</p>
                 ) : funcionarios.length === 0 ? (
-                    <p>Nenhum funcionário encontrado. Adicione um novo funcionário!</p>
+                    <p>Nenhum funcionário encontrado.</p>
                 ) : (
                     <table className={styles.employeeTable}>
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome Completo</th>
-                                <th>Gênero</th>
-                                <th>Data de Nascimento</th>
-                                <th>Cargo</th>
-                                <th>Salário Base</th>
-                                <th>Salário Líquido</th>
-                                <th>Ações</th>
-                            </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Gênero</th>
+                            <th>Nascimento</th>
+                            <th>Cargo</th>
+                            <th>Salário Base</th>
+                            <th>Salário Líquido</th>
+                            <th>Ações</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {funcionarios.map((funcionario) => (
-                                <tr key={funcionario.id}>
-                                    <td>{funcionario.id}</td>
-                                    <td>{funcionario.nome}</td>
-                                    <td>{funcionario.genero}</td>
-                                    <td>{formatDate(funcionario.dataNascimento)}</td>
-                                    <td>{funcionario.cargo}</td>
-                                    <td>{formatCurrency(funcionario.salario)}</td>
-                                    <td>{formatCurrency(funcionario.salarioLiquido)}</td>
-                                    <td>
-                                        <div className={styles.rowActions}>
-                                            <button onClick={() => openModal('edit', funcionario)} className={styles.editRowButton}>Editar</button>
-
-                                            <button
-                                                onClick={() => handleRemoveFuncionario(funcionario.id, funcionario.nome)}
-                                                className={styles.removeRowButton}
-                                            >
-                                                Remover
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                        {funcionarios.map(f => (
+                            <tr key={f.id}>
+                                <td>{f.id}</td>
+                                <td>{f.nome}</td>
+                                <td>{f.genero}</td>
+                                <td>{formatDate(f.dataNascimento)}</td>
+                                <td>{f.cargo}</td>
+                                <td>{formatCurrency(f.salario)}</td>
+                                <td>{formatCurrency(f.salarioLiquido)}</td>
+                                <td>
+                                    <div className={styles.rowActions}>
+                                        <button
+                                            onClick={() => openModal('edit', f)}
+                                            className={styles.editRowButton}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => handleRemoveFuncionario(f.id)}
+                                            className={styles.removeRowButton}
+                                        >
+                                            Remover
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 )}
             </div>
 
-            {modal.type === 'add' && <RegisterFuncionarioModal onClose={closeModal} onSave={handleAddFuncionario} />}
-            {modal.type === 'edit' && <EditFuncionarioModal funcionarioToEdit={modal.data} onClose={closeModal} onSave={handleEditFuncionario} />}
-            </div>
+            {modal.type === 'add' && (
+                <RegisterFuncionarioModal onClose={closeModal} onSave={handleAddFuncionario} />
+            )}
+            {modal.type === 'edit' && (
+                <EditFuncionarioModal funcionarioToEdit={modal.data} onClose={closeModal} onSave={handleEditFuncionario} />
+            )}
+            {feedback.show && (
+                <AlertModal type={feedback.type} message={feedback.message} onClose={closeFeedback} />
+            )}
+        </div>
     );
 }
 

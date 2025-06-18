@@ -21,7 +21,7 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!funcionarioData.id || !funcionarioData.nome || !funcionarioData.dataNascimento || !funcionarioData.genero || !funcionarioData.cargo || !funcionarioData.salario) {
+        if (!funcionarioData.nome || !funcionarioData.dataNascimento || !funcionarioData.genero || !funcionarioData.cargo || !funcionarioData.salario) {
             alert('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
@@ -43,10 +43,6 @@ function RegisterFuncionarioModal({ onClose, onSave }) {
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.formFuncionario}>
-                    <div className={styles.formGroupFuncionario}>
-                        <label htmlFor="ID">ID</label>
-                        <input type="number" id="idFuncionario" name="idFuncionario" value={funcionarioData.id} onChange={handleChange} required />
-                    </div>
                     <div className={styles.formGroupFuncionario}>
                         <label htmlFor="nome">Nome Completo</label>
                         <input type="text" id="nome" name="nome" value={funcionarioData.nome} onChange={handleChange} required />

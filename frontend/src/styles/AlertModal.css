@@ -1,0 +1,71 @@
+/* src/styles/FeedbackModal.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Z-index alto para ficar sobre outros modais se necessário */
+}
+
+.modalContent {
+    background-color: var(--WHITE);
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.iconContainer {
+    margin-bottom: 1rem;
+}
+
+.icon {
+    font-size: 4rem; /* Ícone bem grande e visível */
+}
+
+.iconSuccess {
+    color: var(--GREEN_ADD);
+}
+
+.iconError {
+    color: var(--RED_DELETE);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--TEXT-DARK);
+    margin: 0.5rem 0;
+}
+
+.message {
+    font-size: 1.1rem;
+    color: var(--TEXT-MUTED);
+    margin-bottom: 2rem;
+}
+
+.closeButton {
+    background-color: var(--PRIMARY_TEAL);
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: filter 0.2s;
+}
+
+.closeButton:hover {
+    filter: brightness(0.9);
+}
