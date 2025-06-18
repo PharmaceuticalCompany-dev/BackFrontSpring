@@ -26,3 +26,12 @@ cd ..
 ```bash
 
 ### Iniciar o FrontEnd
+
+# Navegue até o diretório frontend:
+cd frontend
+
+# Instale as dependências Node.js necessárias:
+npm i
+
+# Inicie o servidor de desenvolvimento:
+npm run dev
